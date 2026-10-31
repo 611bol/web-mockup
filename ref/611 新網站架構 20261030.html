@@ -1,0 +1,503 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>611 新網站架構</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@700&display=swap">
+<style>
+/* Layout: home block on top, two audience bands (newcomers / members) of section cards, utility bar and footer as dashed bands. */
+:root{
+  --bg:#F4F5F7; --surface:#FFFFFF; --fg:#1A2230; --muted:#566274; --line:#D6DBE3;
+  --new:#0B6B5D; --new-bg:#E2F2EE;
+  --mem:#463FB0; --mem-bg:#ECEBFA;
+  --merge:#7A4B00; --merge-bg:#FBEBCB;
+  --move:#0E4C8A; --move-bg:#DCEBFA;
+  --add:#0B6B5D; --add-bg:#D5F0E8;
+  --font-body:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;
+  --font-display:"Noto Serif TC","Songti TC","PMingLiU",serif;
+  --font-mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0F141B; --surface:#171E28; --fg:#E6EAF0; --muted:#9AA6B6; --line:#2B3544;
+    --new:#6FD6C1; --new-bg:#12302B;
+    --mem:#B3AFF7; --mem-bg:#26244C;
+    --merge:#F2C879; --merge-bg:#3A2C10;
+    --move:#9CC8F5; --move-bg:#122B47;
+    --add:#7FE0C8; --add-bg:#0F3A31;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0F141B; --surface:#171E28; --fg:#E6EAF0; --muted:#9AA6B6; --line:#2B3544;
+  --new:#6FD6C1; --new-bg:#12302B;
+  --mem:#B3AFF7; --mem-bg:#26244C;
+  --merge:#F2C879; --merge-bg:#3A2C10;
+  --move:#9CC8F5; --move-bg:#122B47;
+  --add:#7FE0C8; --add-bg:#0F3A31;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--font-body);font-size:15px;line-height:1.65;margin:0}
+.wrap{max-width:1160px;margin:0 auto;padding-block:36px 56px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1{font-family:var(--font-display);font-size:clamp(26px,4vw,36px);line-height:1.25;margin:0 0 8px;text-wrap:balance}
+.lede{color:var(--muted);margin:0;max-width:62ch}
+.controls{display:flex;flex-wrap:wrap;gap:12px 20px;align-items:center;margin:24px 0 8px}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:6px;overflow:hidden;background:var(--surface)}
+.seg button{font:inherit;font-size:14px;color:var(--fg);background:none;border:0;padding:6px 14px;cursor:pointer}
+.seg button+button{border-left:1px solid var(--line)}
+.seg button[aria-pressed="true"]{background:var(--fg);color:var(--bg)}
+.seg button:focus-visible,.tog input:focus-visible{outline:2px solid var(--mem);outline-offset:2px}
+.tog{display:inline-flex;align-items:center;gap:8px;font-size:14px;cursor:pointer}
+.legend{display:flex;flex-wrap:wrap;gap:8px 14px;font-size:13px;color:var(--muted);align-items:center;margin:0 0 28px}
+.chip{display:inline-block;font-size:12px;line-height:1.5;padding:0 7px;border-radius:4px;font-weight:500;white-space:nowrap}
+.chip.merge{background:var(--merge-bg);color:var(--merge)}
+.chip.move{background:var(--move-bg);color:var(--move)}
+.chip.new{background:var(--add-bg);color:var(--add)}
+.chip.ext{background:transparent;color:var(--muted);border:1px solid var(--line)}
+.home{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 14px;background:var(--fg);color:var(--bg);border-radius:8px;padding:12px 18px;margin-bottom:12px}
+.home b{font-size:17px;font-weight:700}
+.home span{font-family:var(--font-mono);font-size:13px;opacity:.8}
+.bar{border:1px dashed var(--line);border-radius:6px;padding:10px 16px;font-size:14px;color:var(--muted);display:flex;flex-wrap:wrap;gap:4px 18px;align-items:baseline;margin-bottom:28px}
+.bar strong{color:var(--fg);font-weight:500}
+.bar.foot{margin:28px 0 0}
+.band{margin-bottom:32px}
+.band-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 12px;margin-bottom:12px}
+.band-head h2{font-size:17px;font-weight:700;margin:0}
+.band-head p{margin:0;color:var(--muted);font-size:14px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,320px),1fr));gap:16px;align-items:start}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:10px;min-width:0;overflow:hidden}
+.card-h{padding:12px 16px;display:flex;flex-wrap:wrap;gap:2px 10px;align-items:baseline;justify-content:space-between}
+.band.new .card-h{background:var(--new-bg);color:var(--new)}
+.band.mem .card-h{background:var(--mem-bg);color:var(--mem)}
+.card-h h3{margin:0;font-size:17px;font-weight:700}
+.card-h .meta{font-family:var(--font-mono);font-size:12px}
+.card ul{list-style:none;margin:0;padding:8px 16px 14px}
+.card li{padding:5px 0;min-width:0}
+.card ul ul{padding:2px 0 0 10px;margin-left:4px;border-left:1px solid var(--line)}
+.row{display:flex;flex-wrap:wrap;gap:2px 8px;align-items:baseline}
+.row .nm{font-weight:500}
+.path{font-family:var(--font-mono);font-size:12px;color:var(--muted);overflow-wrap:anywhere}
+.from{display:none;font-size:12.5px;color:var(--muted);margin-top:1px}
+body.showmap .from{display:block}
+.from::before{content:"舊：";opacity:.7}
+.note{margin-top:32px;border-top:1px solid var(--line);padding-top:20px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:16px 28px;font-size:14px}
+.note h4{margin:0 0 4px;font-size:14px}
+.note p{margin:0;color:var(--muted)}
+.wf-sec{margin-top:44px}
+.wf-sec h2{font-size:20px;margin:0 0 4px}
+.wf-sec>p{color:var(--muted);margin:0 0 20px;max-width:62ch}
+.wf{max-width:780px;border:1px solid var(--line);border-radius:10px;background:var(--surface);padding:14px;display:grid;gap:10px}
+.wf-b{border:1px dashed var(--line);border-radius:6px;padding:12px 14px;display:grid;gap:8px;min-width:0}
+.wf-b.hero{background:var(--new-bg);border:1px solid transparent}
+.wf-t{display:flex;flex-wrap:wrap;gap:2px 10px;align-items:baseline;font-size:13px;color:var(--muted)}
+.wf-t b{color:var(--fg);font-weight:700;font-size:14px}
+.wf-t i{font-style:normal;font-family:var(--font-mono);font-size:12px}
+.ph{background:var(--bg);border:1px solid var(--line);border-radius:4px;padding:8px 10px;font-size:13px;color:var(--muted);min-width:0}
+.ph.btn{background:var(--fg);color:var(--bg);border-color:var(--fg);font-weight:500;text-align:center}
+.ph.ghost{background:transparent;color:var(--fg);text-align:center;font-weight:500}
+.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,150px),1fr));gap:8px}
+.cols.c2{grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr))}
+.tree-sec{margin-top:28px}
+.tree-scroll{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--surface);padding:20px 16px 24px}
+.tree{min-width:1580px}
+.troot{width:max-content;margin:0 auto;position:relative;background:var(--fg);color:var(--bg);border-radius:8px;padding:8px 22px;font-weight:700;font-size:16px}
+.troot::after{content:"";position:absolute;left:50%;top:100%;width:1px;height:16px;background:var(--line)}
+.tcols{display:grid;grid-template-columns:repeat(9,164px);gap:12px;position:relative;padding-top:16px}
+.tcols::before{content:"";position:absolute;top:16px;left:82px;right:82px;height:1px;background:var(--line)}
+.tcol{position:relative;padding-top:12px;min-width:0}
+.tcol::before{content:"";position:absolute;top:0;left:50%;width:1px;height:12px;background:var(--line)}
+.tn{border:1px solid transparent;border-radius:8px;padding:8px 10px;text-align:center;line-height:1.4}
+.tn b{display:block;font-size:15px}
+.tn span{font-family:var(--font-mono);font-size:11px}
+.tcol.new .tn{background:var(--new-bg);color:var(--new)}
+.tcol.mem .tn{background:var(--mem-bg);color:var(--mem)}
+.tcol.util .tn{border:1px dashed var(--line);color:var(--muted)}
+.tcol ul{list-style:none;margin:8px 0 0 10px;padding:0 0 0 12px;border-left:1px solid var(--line)}
+.tcol li{position:relative;padding:2px 0;font-size:12.5px;line-height:1.5;overflow-wrap:anywhere}
+.tcol li::before{content:"";position:absolute;left:-12px;top:12px;width:10px;height:1px;background:var(--line)}
+.tcol li ul{margin:2px 0 0 4px}
+.tcol .chip{font-size:11px;padding:0 5px}
+.tcols.flex{display:flex}
+.tcols.flex::before{display:none}
+.tcols.flex .tcol{flex:0 0 164px}
+.tcols.flex .tcol.slim{flex-basis:84px}
+.tcols.flex .tcol::after{content:"";position:absolute;top:0;left:-6px;right:-6px;height:1px;background:var(--line)}
+.tcols.flex .tcol:first-child::after{left:50%}
+.tcols.flex .tcol:last-child::after{right:50%}
+.tcol.old .tn{background:var(--bg);border:1px solid var(--line);color:var(--fg)}
+.tcol.old .tn span{color:var(--muted)}
+.chip.dup{background:transparent;border:1px solid var(--merge);color:var(--merge)}
+.tree.wide{min-width:2070px}
+.cmp-wrap{overflow-x:auto;max-width:980px}
+.sev{display:inline-block;font-size:12px;line-height:1.5;padding:0 8px;border-radius:4px;font-weight:500;white-space:nowrap}
+.sev.hi{background:var(--fg);color:var(--bg)}
+.sev.mid{background:var(--merge-bg);color:var(--merge)}
+.sev.lo{border:1px solid var(--line);color:var(--muted)}
+.cmp td.sevc{white-space:nowrap}
+.cmp td.sub{font-weight:400}
+.cmp td.sub b{font-weight:500}
+.hp-note{max-width:980px;margin:14px 0 0;font-size:14px;color:var(--muted)}
+.tree.menu{min-width:1060px}
+.dest{display:block;font-size:12.5px;color:var(--muted)}
+.xcard .card-h{background:var(--bg);color:var(--fg)}
+.cmp{width:100%;border-collapse:collapse;font-size:14px}
+.cmp th,.cmp td{text-align:left;padding:8px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+.cmp th{font-weight:500;color:var(--muted);font-size:13px}
+.cmp td:first-child{font-weight:500;white-space:nowrap}
+[hidden]{display:none!important}
+</style>
+
+<div class="wrap">
+  <h1>611靈糧堂 新網站架構</h1>
+  <p class="lede">原網站 13 個一級選單、<span id="old-n"></span> 個節點，整理成 7 個分區。新朋友與會友各走自己的入口，同工功能收進工具列。</p>
+
+  <section class="wf-sec tree-sec" id="compare">
+    <h2>Before / After 對照</h2>
+    <p>先看數字，再往下看現況與建議兩張樹狀圖。</p>
+    <div class="cmp-wrap"><table class="cmp">
+      <tr><th>項目</th><th>現況</th><th>建議（完整架構）</th><th>精簡選單版</th></tr>
+      <tr><td>一級選單</td><td>13 個</td><td>7 個，另有工具列與頁尾</td><td>5 個，另有工具列</td></tr>
+      <tr><td>選單節點</td><td id="cmp-old"></td><td id="cmp-new"></td><td id="cmp-menu"></td></tr>
+      <tr><td>最深層級</td><td>4 層（牧養 › 兒童教會 › 兒家大世界 › 節目）</td><td>3 層，節目系列改為列表卡片</td><td>2 層，只有一級與下拉</td></tr>
+      <tr><td>一級選單可點</td><td>7 個沒有自己的頁面</td><td>每個分區有總覽頁</td><td>每個一級有總覽頁</td></tr>
+      <tr><td>重複入口</td><td>行事曆、見證、學房課表、開組報數等同時出現在快捷選單與主選單</td><td>每頁只放一處，其他地方用連結</td><td>每頁只放一處</td></tr>
+      <tr><td>牧養選單</td><td>13 個項目擠在同一層</td><td>拆成新朋友與牧養群體兩個分區</td><td>每個下拉 3 至 5 項</td></tr>
+    </table></div>
+  </section>
+
+  <section class="wf-sec tree-sec" id="home-issues">
+    <h2>原網站首頁的問題</h2>
+    <p>2026 年 10 月 30 日在瀏覽器逐項核對用戶實際看得到的內容。首頁有 11 個文字區塊、2 個輪播和直播面板，另有 99 個連結與 38 張圖。</p>
+    <div class="cmp-wrap"><table class="cmp">
+      <tr><th>嚴重度</th><th>問題</th><th>證據</th></tr>
+      <tr><td class="sevc"><span class="sev hi">高</span></td><td><b>兩個輪播內容重疊</b></td><td class="sub">首屏上方橫幅 7 張，第二個橫幅 11 張，共 18 張，高度合計約 550px。為我城守望、Rummikub、611course 小組長中階、大軍RS 詩篇兩邊都有；月朔禱告會與職場領袖學房說明會同時出現在公告列表與第二個輪播。</td></tr>
+      <tr><td class="sevc"><span class="sev hi">高</span></td><td><b>新朋友沒有明確的下一步</b></td><td class="sub">右側時間表有各場崇拜的時間，但沒有地點、交通、報到方式，也沒有「第一次來訪」入口。標題寫「一次歡迎，永遠歡迎」，後面沒有行動按鈕。地址只在頁面最底部。</td></tr>
+      <tr><td class="sevc"><span class="sev mid">中</span></td><td><b>同類內容各占一區</b></td><td class="sub">跟隨神、Gen TOL、要聞、見證各有 1 至 3 則，分成四區，各自一個「更多」按鈕。性質都是最新文章。</td></tr>
+      <tr><td class="sevc"><span class="sev mid">中</span></td><td><b>導覽重複，對象混雜</b></td><td class="sub">工具列、快捷選單 9 項、側邊主選單 13 項同時存在。開組報數在工具列與快捷選單各出現一次，同工用的開組報數與登入，和公眾入口放在一起。</td></tr>
+      <tr><td class="sevc"><span class="sev mid">中</span></td><td><b>晨禱讀經只是經文列表</b></td><td class="sub">流量報表顯示晨禱讀經是全站最常用的內容，人均 8 次瀏覽，首頁卻是一串 12 項的經文列表，要找到今天的得自己對日期。</td></tr>
+      <tr><td class="sevc"><span class="sev lo">低</span></td><td><b>輪播文字在圖裡</b></td><td class="sub">海報的文字畫在圖上，手機上字會很小，搜尋引擎與螢幕閱讀器讀不到。可見的 38 張圖有 19 張沒有替代文字。</td></tr>
+      <tr><td class="sevc"><span class="sev lo">低</span></td><td><b>舊公告仍顯示</b></td><td class="sub">最新公告列表的最後一則是 2025 年 6 月 1 日的長洲伊甸園開放，已超過一年。</td></tr>
+      <tr><td class="sevc"><span class="sev lo">低</span></td><td><b>頁面底部偏長</b></td><td class="sub">核心價值 10 項、榮耀異象、聯絡、社群、APP 二維碼全部攤開。</td></tr>
+    </table></div>
+    <p class="hp-note">已隱藏的區塊（週年堂慶、Live Worship、神國舞台劇、媽媽的味道、鍾情611）用戶看不到，不列入。要保留的優點：直播播放器與時間表放在首屏，晨禱、講道、跟隨神的最新內容直接在首頁。</p>
+
+    <h2 style="margin-top:32px">建議的首頁結構</h2>
+    <p>從 11 個文字區塊加 2 個輪播，整理成 7 個區塊。</p>
+    <div class="cmp-wrap"><table class="cmp">
+      <tr><th>順序</th><th>區塊</th><th>做法</th></tr>
+      <tr><td>1</td><td><b>直播與時間表</b></td><td class="sub">保留現有面板，放在最上面</td></tr>
+      <tr><td>2</td><td><b>主視覺</b></td><td class="sub">兩個輪播合併為一個，最多 3 張，只放本週重點</td></tr>
+      <tr><td>3</td><td><b>6 個捷徑</b></td><td class="sub">今日晨禱、主日講道、線上崇拜、學房課表、本週週刊、近期活動</td></tr>
+      <tr><td>4</td><td><b>第一次來訪</b></td><td class="sub">新增一張卡片：時間、地點、報到方式，連到「第一次來訪」頁</td></tr>
+      <tr><td>5</td><td><b>最新消息</b></td><td class="sub">公告與要聞合併，5 則，用分類標籤區分</td></tr>
+      <tr><td>6</td><td><b>最新內容</b></td><td class="sub">跟隨神、Gen TOL、見證合併，3 則</td></tr>
+      <tr><td>7</td><td><b>頁尾</b></td><td class="sub">聯絡、社群、APP，核心價值收合</td></tr>
+    </table></div>
+    <p class="hp-note">尚待確認：輪播海報由誰更新、多久換一次；Google Analytics 有沒有點擊事件或捲動深度。沒有的話，可先用熱點圖工具跑兩週，再決定哪些區塊可以刪。</p>
+  </section>
+
+  <section class="wf-sec tree-sec" id="tree-old-sec">
+    <h2>現況樹狀圖（Before）</h2>
+    <p>原網站主選單與快捷選單的完整階層。「重複」表示同一頁在別處也有入口，「無總覽頁」表示這個父層項目本身沒有頁面。圖較寬，可左右捲動。</p>
+    <div class="tree-scroll" tabindex="0" role="region" aria-label="現況樹狀圖"><div class="tree wide" id="tree-old"></div></div>
+  </section>
+
+  <section class="wf-sec tree-sec" id="tree-sec">
+    <h2>建議樹狀圖（After）</h2>
+    <p>由首頁往下看整體架構，共 <span id="tree-sum"></span>。青綠色是給新朋友的分區，紫色是給會友的分區，虛線是工具列與頁尾。圖較寬，可左右捲動。</p>
+    <div class="tree-scroll" tabindex="0" role="region" aria-label="新網站架構樹狀圖"><div class="tree" id="tree"></div></div>
+  </section>
+
+  <div class="controls">
+    <div class="seg" role="group" aria-label="依對象篩選">
+      <button type="button" data-f="all" aria-pressed="true">全部</button>
+      <button type="button" data-f="new" aria-pressed="false">新朋友</button>
+      <button type="button" data-f="mem" aria-pressed="false">會友</button>
+    </div>
+    <label class="tog"><input type="checkbox" id="map"> 顯示舊網站來源</label>
+    <span id="count" class="path"></span>
+  </div>
+  <p class="legend" aria-label="標籤說明">
+    <span><span class="chip merge">合併</span> 多頁併成一頁</span>
+    <span><span class="chip move">搬移</span> 換到新的分區</span>
+    <span><span class="chip new">新增</span> 原網站沒有</span>
+    <span>無標籤：沿用原頁面</span>
+  </p>
+
+  <div class="home"><b>首頁</b><span>church611.org/</span></div>
+  <div class="bar" id="util"></div>
+
+  <section class="band new" data-aud="new">
+    <div class="band-head"><h2>給新朋友</h2><p>認識教會、第一次來訪、開始跟隨</p></div>
+    <div class="grid" id="g-new"></div>
+  </section>
+  <section class="band mem" data-aud="mem">
+    <div class="band-head"><h2>給會友</h2><p>牧養、家庭、裝備、禱告、資源</p></div>
+    <div class="grid" id="g-mem"></div>
+  </section>
+
+  <div class="bar foot" id="foot"></div>
+
+  <section class="wf-sec tree-sec" id="menu-sec">
+    <h2>精簡選單版</h2>
+    <p>完整架構是網站有哪些頁面，選單只放入口。一級 5 個、每個下拉 3 至 5 項，其餘頁面從總覽頁、搜尋或首頁捷徑進入。選單分組不必和網址分組相同，網址仍依上面的完整架構。</p>
+    <div class="tree-scroll" tabindex="0" role="region" aria-label="精簡選單版樹狀圖"><div class="tree menu" id="tree-menu"></div></div>
+    <div class="grid" id="menu-extra" style="margin-top:16px"></div>
+  </section>
+
+  <section class="wf-sec" id="branch-template">
+    <h2>分堂頁版型示意</h2>
+    <p>每個分堂使用同一個版型，內容由 CMS 欄位帶入。方括號是要填的資料，不是實際內容。由上而下的順序就是訪客的閱讀順序。</p>
+    <div class="wf" role="group" aria-label="分堂頁版型示意，共九個區塊">
+      <div class="wf-b hero">
+        <div class="wf-t"><b>① 頁首</b><i>必填</i></div>
+        <div class="ph">〔分堂名稱〕</div>
+        <div class="cols c2"><div class="ph">〔崇拜時間〕</div><div class="ph">〔地址〕</div></div>
+        <div class="cols c2"><div class="ph btn">第一次來訪</div><div class="ph ghost">查看地圖</div></div>
+      </div>
+      <div class="wf-b">
+        <div class="wf-t"><b>② 分堂簡介與牧者</b><i>必填</i></div>
+        <div class="cols c2"><div class="ph">〔牧者照片〕</div><div class="ph">〔牧者姓名與一段簡介〕</div></div>
+        <div class="ph">〔分堂簡介，2 至 3 句〕</div>
+      </div>
+      <div class="wf-b">
+        <div class="wf-t"><b>③ 到場後怎麼報到</b><i>文案由教會撰寫</i></div>
+        <div class="cols"><div class="ph">〔報到位置〕</div><div class="ph">〔現場填寫新朋友資料〕</div><div class="ph">〔接待同工會協助〕</div></div>      </div>
+      <div class="wf-b">
+        <div class="wf-t"><b>④ 兒童與青少年</b><i>連到牧養群體</i></div>
+        <div class="cols c2"><div class="ph">兒童教會：〔年齡〕〔報到方式〕</div><div class="ph">青年大軍：〔時間〕〔對象〕</div></div>
+      </div>
+      <div class="wf-b">
+        <div class="wf-t"><b>⑤ 近期活動</b><i>來自行事曆，最多 3 個</i></div>
+        <div class="cols"><div class="ph">〔日期〕〔時間〕〔地點〕〔活動名稱〕</div><div class="ph">〔日期〕〔時間〕〔地點〕〔活動名稱〕</div><div class="ph">〔日期〕〔時間〕〔地點〕〔活動名稱〕</div></div>
+      </div>
+      <div class="wf-b">
+        <div class="wf-t"><b>⑥ 第一次來會是什麼樣子</b><i>文案由教會撰寫</i></div>
+        <div class="cols"><div class="ph">敬拜的感受</div><div class="ph">誰會接待你</div><div class="ph">講道的內容</div><div class="ph">孩子如何安排</div></div>
+      </div>
+      <div class="wf-b">
+        <div class="wf-t"><b>⑦ 這裡有什麼</b><i>聚會卡片，來自牧養群體</i></div>
+        <div class="cols"><div class="ph">〔聚會名稱〕〔時間〕〔對象〕→ 行動按鈕</div><div class="ph">〔聚會名稱〕〔時間〕〔對象〕→ 行動按鈕</div><div class="ph">〔聚會名稱〕〔時間〕〔對象〕→ 行動按鈕</div></div>
+      </div>
+      <div class="wf-b">
+        <div class="wf-t"><b>⑧ 交通與設施</b></div>
+        <div class="cols"><div class="ph">交通</div><div class="ph">停車</div><div class="ph">無障礙設施</div><div class="ph">育嬰室</div></div>
+      </div>
+      <div class="wf-b">
+        <div class="wf-t"><b>⑨ 聯絡與附近分堂</b></div>
+        <div class="cols c2"><div class="ph">〔電郵或 WhatsApp〕</div><div class="ph">〔附近分堂 2 至 3 個，含距離〕</div></div>
+      </div>
+    </div>
+    <div class="note">
+      <div><h4>基本資料</h4><p>分堂名稱、崇拜時間、地址、地圖連結、牧者姓名與照片。</p></div>
+      <div><h4>文字內容</h4><p>分堂簡介、第一次來會是什麼樣子、交通、停車、無障礙設施、育嬰室。</p></div>
+      <div><h4>自動帶入</h4><p>近期活動來自行事曆，聚會卡片來自牧養群體，附近分堂依距離排序。</p></div>
+      <div><h4>新朋友資料</h4><p>仍在現場填寫，網站只說明報到方式，不收集資料。</p></div>
+    </div>
+  </section>
+
+  <div class="note">
+    <div><h4>網址規則</h4><p>全部使用英文 slug，一級分區為 /about、/welcome、/community、/family、/equip、/prayer、/media。舊網址逐一做 301 轉址。</p></div>
+    <div><h4>內容類型</h4><p>講道、消息、見證、活動、課程五種用 CMS 內容類型管理，列表頁附分類與篩選。其餘為一般頁面。</p></div>
+    <div><h4>層級上限</h4><p>最深 3 層。兒家大世界等節目系列改成列表頁裡的卡片，不再各佔一層。</p></div>
+    <div><h4>本次更新</h4><p>加入各分堂共用模板、牧養群體總覽、兒童安全報到、代禱需要與關懷與協助。新增精簡選單版（5 個一級），補上原網站有但不在選單上的 611 ANEW，並新增原網站首頁的問題分析與建議的首頁結構。</p></div>
+  </div>
+</div>
+
+<script>
+var S=[
+{id:'about',aud:'new',name:'認識我們',slug:'/about',pages:[
+ {n:'異象與核心價值',p:'/vision',s:'merge',f:'領受611呼召與異象、十一大新核心價值、鍾情611'},
+ {n:'611小檔案與大事記',p:'/profile',s:'merge',f:'611小檔案、611大事記'},
+ {n:'教會立場',p:'/beliefs',f:'認識611 › 教會立場'},
+ {n:'崇拜時間與地點',p:'/service-times',f:'認識611 › 崇拜時間（/service-times/）'},
+ {n:'分堂與地圖',p:'/branches',s:'merge',f:'直到地極 › 分堂地圖、生命樹遍植專欄',c:[
+  {n:'各分堂頁（共用模板）',p:'/[branch]',s:'new',f:'原網站只有地圖與分堂要聞，改為每個分堂一頁，版型見下方示意'}]},
+ {n:'聯絡我們',p:'/contact',f:'認識611 › 聯絡我們'}]},
+{id:'welcome',aud:'new',name:'新朋友',slug:'/welcome',pages:[
+ {n:'第一次來訪',p:'/first-visit',s:'new',f:'原網站沒有。固定五塊：實際感受、時間與地點、交通停車、兒童與無障礙、到場後怎麼報到（現場填寫資料）'},
+ {n:'跟隨神',p:'/following-god',s:'move',f:'牧養 › 跟隨神（/followinggod/）'},
+ {n:'浸禮',p:'/baptism',s:'move',f:'牧養 › 浸禮（/baptism/）'},
+ {n:'入會禮',p:'/membership',s:'move',f:'牧養 › 入會禮'},
+ {n:'加入MG12小組',p:'/join-a-group',s:'move',f:'牧養 › MG12小組 › 我要入小組；改為三步驟：說出情況、教會配對、先去一次再決定'}]},
+{id:'community',aud:'mem',name:'牧養群體',slug:'/community',pages:[
+ {n:'牧養群體總覽',p:'',s:'new',f:'卡片列表：每個聚會標示時間、對象年齡、行動按鈕'},
+ {n:'MG12小組',p:'/mg12',f:'牧養 › MG12小組',c:[
+  {n:'小組長按立禮',p:'/leader-ordination',f:'MG12小組 › 成為小組長'},
+  {n:'破冰遊戲',p:'/icebreakers',f:'搜尋進站的熱門資源，維持公開，不放進同工專區'},
+  {n:'慈惠事工',p:'/charity'},
+  {n:'MG12專欄',p:'/columns',f:'/category/mg12專欄/'}]},
+ {n:'兒童教會',p:'/children',f:'牧養 › 兒童教會',c:[
+  {n:'兒童教會線上崇拜',p:'/online-service'},
+  {n:'兒童最新活動',p:'/news'},
+  {n:'兒家大世界',p:'/programs',s:'merge',f:'約 8 個節目各有獨立頁面，改為卡片列表'},
+  {n:'安全報到與義工',p:'/safety',s:'new',f:'配對標籤報到、義工培訓與篩選說明'},
+  {n:'兒童崇拜劇場',p:'/theatre'},
+  {n:'611兒童劇團',p:'/drama-team'}]},
+ {n:'青年大軍',p:'/youth',f:'牧養 › 青年大軍',c:[
+  {n:'最新活動',p:'/events'},
+  {n:'大專職青牧養',p:'/young-adults'},
+  {n:'青年崇拜（中三至中六）',p:'/youth-service'},
+  {n:'少年崇拜（中一至中二）',p:'/teens-service'},
+  {n:'Gen TOL',p:'/gentol',s:'move',f:'牧養 › Gen TOL'}]},
+ {n:'媽媽的味道',p:'/mamas-kitchen',f:'牧養 › 媽媽的味道'},
+ {n:'哈利路亞崇拜',p:'/hallelujah'},
+ {n:'Lalala崇拜',p:'/lalala'},
+ {n:'611 ANEW（英文崇拜）',p:'/anew',s:'move',f:'原網站有此頁（All Nations English Worship）但不在選單上，補進來'},
+ {n:'豐盛120（長者）',p:'/abundant-120'},
+ {n:'Mercy House',p:'/mercy-house',c:[
+  {n:'喜樂小天使',p:'/joy-angels'},
+  {n:'與我們連結',p:'/connect'}]}]},
+{id:'family',aud:'mem',name:'好好家庭',slug:'/family',pages:[
+ {n:'生命樹恩愛夫妻營',p:'/couples-camp',c:[{n:'生命樹教牧夫妻營',p:'/pastors-couples'}]},
+ {n:'好玩親子團',p:'/parent-child'},
+ {n:'ONE NEW MAN',p:'/one-new-man'},
+ {n:'嬰孩奉獻禮',p:'/dedication'},
+ {n:'重立婚約',p:'/renew-vows'},
+ {n:'婚前輔導課',p:'/premarital'},
+ {n:'好好家庭影片',p:'/videos',s:'merge',f:'三好健康人生、愛情常保鮮等 7 個節目系列，改為卡片列表'},
+ {n:'好好家庭報',p:'family.church611.org',ext:1,f:'外部子站，建議之後整合進同一個 CMS'}]},
+{id:'equip',aud:'mem',name:'學房裝備',slug:'/equip',pages:[
+ {n:'611學房',p:'/school',f:'學房裝備 › 611學房',c:[
+  {n:'學制與課程',p:'/curriculum',s:'merge',f:'學房學制、課程精華、五重恩賜恩膏、十二大特色'},
+  {n:'課表',p:'/schedule',f:'學房課表（/class-schedule/）'},
+  {n:'報名與招生',p:'/apply',f:'學房報名表／招生特刊'},
+  {n:'問題解答',p:'/faq'},
+  {n:'見證與消息',p:'/stories',s:'merge',f:'雲彩見證、學房要聞、勉勵與祝福'}]},
+ {n:'職場領袖學房',p:'/marketplace-leaders'},
+ {n:'利未教師學房',p:'/levi-teachers',s:'move',f:'認識611 › 生命樹教育 › 利未教師學房'},
+ {n:'生命樹教育',p:'/tol-education',s:'move',f:'認識611 › 生命樹教育'},
+ {n:'611裝備中心',p:'/equipping-center',s:'merge',f:'611裝備課程、611線上裝備',c:[
+  {n:'苗圃八福',p:'/nursery',s:'merge',f:'牧養 › 苗圃八福（介紹、開課日期、常見問題Q&A）；歸入裝備課程，頁面寫明每期日期、費用、報名按鈕，新朋友頁以連結帶入'}]},
+ {n:'參與服事',p:'/serve',f:'學房裝備 › 參與服事；改為事工清單加報名連結'}]},
+{id:'prayer',aud:'mem',name:'權能禱告',slug:'/prayer',pages:[
+ {n:'247愛耶穌',p:'/247',c:[
+  {n:'247更表',p:'/schedule',s:'move',f:'神的話 › 247更表'},
+  {n:'守望神國禱告會',p:'/watch'},
+  {n:'琴與爐敬拜',p:'/harp-and-bowl'},
+  {n:'月朔 • 堅固臺禱告會',p:'/new-moon'},
+  {n:'禱告專題系列',p:'/series',s:'merge',f:'渴慕復興30天、修殿節禱告指引、等候神、家中247'},
+  {n:'247說明會',p:'/intro'}]},
+ {n:'先知禱告隊',p:'/prophetic-team',s:'merge',f:'禱告隊異象、加入先知隊'},
+ {n:'先知預言',p:'/prophecy',f:'247愛耶穌 › 先知預言'},
+ {n:'代禱需要',p:'/request',s:'new',f:'簡短表單，附個人資料使用同意文字'},
+ {n:'關懷與協助',p:'/care',s:'new',f:'集中婚前輔導、重立婚約、婚喪關懷、慈惠事工的入口'},
+ {n:'禱文與粵語錄音',p:'/prayer-guides',f:'初信禱告手冊'}]},
+{id:'media',aud:'mem',name:'資源與消息',slug:'/media',pages:[
+ {n:'主日講道',p:'/sermons',f:'神的話 › 主日講道（內容類型：講道）'},
+ {n:'晨禱讀經',p:'/morning-devotion',f:'神的話 › 晨禱讀經'},
+ {n:'線上崇拜',p:'/live',f:'神的話 › 線上崇拜'},
+ {n:'神國舞台劇',p:'/kingdom-drama',s:'move',f:'神的話 › 神國舞台劇'},
+ {n:'生命見證',p:'/testimonies',f:'一級選單 › 生命見證（內容類型：見證）'},
+ {n:'創作詩歌',p:'/music',s:'merge',f:'最新原創、Live Worship、原創音樂'},
+ {n:'電子書',p:'/ebooks',f:'一級選單 › 電子書'},
+ {n:'最新消息',p:'/news',s:'merge',f:'要聞、家事報告、媒體報導、基督教聯會消息（內容類型：消息）'},
+ {n:'生命的糧週刊',p:'/bulletins',f:'認識611 › 生命的糧 週刊下載'}]}
+];
+var CH={merge:'合併',move:'搬移',new:'新增'};
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;')}
+function item(p,base){
+  var full=p.ext?p.p:base+p.p;
+  var h='<li><div class="row"><span class="nm">'+esc(p.n)+'</span>';
+  if(p.s)h+='<span class="chip '+p.s+'">'+CH[p.s]+'</span>';
+  if(p.ext)h+='<span class="chip ext">外部子站</span>';
+  h+='<span class="path">'+esc(full)+'</span></div>';
+  if(p.f)h+='<div class="from">'+esc(p.f)+'</div>';
+  if(p.c){h+='<ul>'+p.c.map(function(c){return item(c,full)}).join('')+'</ul>'}
+  return h+'</li>';
+}
+function count(ps){return ps.reduce(function(a,p){return a+1+(p.c?count(p.c):0)},0)}
+var total=0;
+S.forEach(function(s){
+  var n=count(s.pages);total+=n;
+  var el=document.getElementById('g-'+s.aud);
+  el.insertAdjacentHTML('beforeend','<article class="card"><div class="card-h"><h3>'+esc(s.name)+'</h3><span class="meta">'+esc(s.slug)+' · '+n+' 頁</span></div><ul>'+s.pages.map(function(p){return item(p,s.slug)}).join('')+'</ul></article>');
+});
+document.getElementById('util').innerHTML='<strong>工具列</strong><span>搜尋</span><span>繁 / EN / 日</span><span>行事曆 /events</span><span>奉獻 /give</span><span>同工入口 /staff（開組報數、登入）</span>';
+document.getElementById('foot').innerHTML='<strong>頁尾</strong><span>長洲伊甸園</span><span>施恩座十年感恩</span><span>生命樹幼稚園 ↗</span><span>HISCO</span><span>聯絡我們</span><span>私隱政策</span>';
+function tnode(p){
+  var h='<li>'+esc(p.n);
+  if(p.s)h+=' <span class="chip '+p.s+'">'+CH[p.s]+'</span>';
+  if(p.c)h+='<ul>'+p.c.map(tnode).join('')+'</ul>';
+  return h+'</li>';
+}
+var tcols=['<div class="tcol util"><div class="tn"><b>工具列</b></div><ul><li>搜尋</li><li>繁／EN／日</li><li>行事曆</li><li>奉獻</li><li>同工入口</li></ul></div>'];
+S.forEach(function(s){
+  tcols.push('<div class="tcol '+s.aud+'"><div class="tn"><b>'+esc(s.name)+'</b><span>'+esc(s.slug)+'</span></div><ul>'+s.pages.map(tnode).join('')+'</ul></div>');
+});
+tcols.push('<div class="tcol util"><div class="tn"><b>頁尾</b></div><ul><li>長洲伊甸園</li><li>施恩座十年感恩</li><li>生命樹幼稚園 ↗</li><li>HISCO</li><li>聯絡我們</li><li>私隱政策</li></ul></div>');
+document.getElementById('tree').innerHTML='<div class="troot">首頁</div><div class="tcols">'+tcols.join('')+'</div>';
+document.getElementById('tree-sum').textContent='7 個分區、'+total+' 個頁面';
+var B=[
+{name:'認識611',pages:[{n:'領受611呼召與異象'},{n:'十一大新核心價值'},{n:'鍾情611'},{n:'611小檔案'},{n:'教會立場'},{n:'生命樹教育',c:[{n:'生命樹教育異象分享'},{n:'611生命樹幼稚園 ↗'},{n:'利未教師學房',d:1}]},{n:'復興建殿',e:1,c:[{n:'施恩座十年感恩'}]},{n:'長洲伊甸園'},{n:'生命的糧 週刊下載'},{n:'要聞'},{n:'家事報告'},{n:'611大事記'},{n:'崇拜時間'},{n:'聯絡我們'},{n:'媒體報導'},{n:'基督教聯會消息'}]},
+{name:'神的話',e:0,pages:[{n:'晨禱讀經',d:1},{n:'主日講道',d:1},{n:'神國舞台劇'},{n:'線上崇拜'}]},
+{name:'生命見證',d:1},
+{name:'牧養',pages:[{n:'跟隨神'},{n:'媽媽的味道'},{n:'Gen TOL'},{n:'浸禮'},{n:'入會禮'},{n:'MG12小組',c:[{n:'我要入小組'},{n:'小組長按立禮'},{n:'MG12小組匯報系統 ↗',d:1},{n:'破冰遊戲'},{n:'MG12專欄'},{n:'慈惠事工'}]},{n:'苗圃八福',c:[{n:'開課日期'},{n:'苗圃八福介紹'},{n:'常見問題Q&A'}]},{n:'兒童教會',c:[{n:'兒童教會線上崇拜'},{n:'兒童最新活動'},{n:'兒家大世界',c:[{n:'Children Church DJD'},{n:'611 Story Corner'},{n:'Apple Art'},{n:'羊仔睇世界'},{n:'兒家有辦法'},{n:'畫出彩虹'},{n:'兒家黎玩啦！'},{n:'兒童教會遊戲'}]},{n:'兒童崇拜劇場'},{n:'611兒童劇團'}]},{n:'Mercy House',c:[{n:'喜樂小天使'},{n:'與我們連結'}]},{n:'青年大軍',c:[{n:'最新活動'},{n:'大專職青牧養'},{n:'青年崇拜'},{n:'少年崇拜'}]},{n:'哈利路亞崇拜'},{n:'豐盛120（長者）'},{n:'Lalala崇拜'}]},
+{name:'學房裝備',pages:[{n:'611學房',c:[{n:'611學房課表',d:1},{n:'勉勵與祝福'},{n:'十二大特色'},{n:'五重恩賜恩膏'},{n:'學房學制'},{n:'課程精華'},{n:'雲彩見證'},{n:'學房要聞'},{n:'學房報名表／招生特刊'},{n:'問題解答'}]},{n:'職場領袖學房'},{n:'利未教師學房',d:1},{n:'611裝備中心',c:[{n:'611裝備課程'},{n:'611線上裝備',d:1}]},{n:'參與服事'}]},
+{name:'權能禱告',pages:[{n:'先知預言'},{n:'247愛耶穌',c:[{n:'247更表'},{n:'守望神國禱告會'},{n:'琴與爐敬拜'},{n:'月朔堅固臺禱告會'},{n:'5786年修殿節禱告指引'},{n:'等候神／方言音樂／呼求的操練'},{n:'禱告30天「渴慕•復興」系列'},{n:'家中247'},{n:'247說明會'}]},{n:'先知禱告隊',e:1,c:[{n:'禱告隊異象'},{n:'加入先知隊'}]},{n:'禱文與粵語錄音'}]},
+{name:'好好家庭',pages:[{n:'生命樹恩愛夫妻營',c:[{n:'生命樹教牧夫妻營'}]},{n:'好玩親子團'},{n:'ONE NEW MAN'},{n:'嬰孩奉獻禮'},{n:'重立婚約'},{n:'婚前輔導課'},{n:'好好家庭報 ↗'},{n:'好好家庭影片',c:[{n:'三好健康人生'},{n:'愛情常保鮮'},{n:'我家有個青少年'},{n:'好好廚房'},{n:'大爸小廚'},{n:'Men’s walk Men’s talk'},{n:'我家好好玩！'}]}]},
+{name:'直到地極',pages:[{n:'分堂地圖'},{n:'分堂要聞'},{n:'生命樹遍植專欄'}]},
+{name:'行事曆',d:1},
+{name:'創作詩歌',pages:[{n:'最新原創'},{n:'Live Worship'},{n:'原創音樂'}]},
+{name:'電子書'},
+{name:'HISCO'},
+{name:'奉獻'}
+];
+function onode(p){
+  var h='<li>'+esc(p.n);
+  if(p.d)h+=' <span class="chip dup">重複</span>';
+  if(p.e)h+=' <span class="chip dup">無總覽頁</span>';
+  if(p.c)h+='<ul>'+p.c.map(onode).join('')+'</ul>';
+  return h+'</li>';
+}
+var D='<span class="chip dup">重複</span>';
+var ocols=['<div class="tcol util old"><div class="tn"><b>工具列與快捷選單</b></div><ul><li>工具列<ul><li>開組報數 '+D+'</li><li>與我們連結</li><li>搜尋</li><li>登入</li><li>繁／EN／日</li><li>時間表（彈出）</li><li>講道筆記（彈出）</li></ul></li><li>快捷選單<ul><li>週刊下載</li><li>晨禱讀經 '+D+'</li><li>主日講道 '+D+'</li><li>見證 '+D+'</li><li>行事曆 '+D+'</li><li>611線上裝備 '+D+'</li><li>學房課表 '+D+'</li><li>分堂專區</li><li>開組報數 '+D+'</li></ul></li></ul></div>'];
+var oc=0;
+B.forEach(function(s){
+  var n=s.pages?count(s.pages):0;oc+=1+n;
+  var flag=s.d?' '+D:'';
+  ocols.push('<div class="tcol old'+(s.pages?'':' slim')+'"><div class="tn"><b>'+esc(s.name)+'</b>'+(s.pages?'<span>'+n+' 項</span>':'')+'</div>'+(flag?'<div style="text-align:center;margin-top:6px">'+D+'</div>':'')+(s.pages?'<ul>'+s.pages.map(onode).join('')+'</ul>':'')+'</div>');
+});
+document.getElementById('tree-old').innerHTML='<div class="troot">首頁</div><div class="tcols flex">'+ocols.join('')+'</div>';
+document.getElementById('old-n').textContent=oc;
+document.getElementById('cmp-old').textContent=oc+' 個';
+document.getElementById('cmp-new').textContent=(total+7)+' 個（含新增的頁面）';
+var M=[
+{name:'認識611',aud:'new',items:['第一次來訪','關於我們','崇拜時間與分堂','浸禮與入會','聯絡我們']},
+{name:'崇拜與見證',aud:'mem',items:['晨禱讀經','主日講道','線上崇拜','見證','詩歌與電子書']},
+{name:'小組與群體',aud:'mem',items:['MG12小組（加入與資源）','兒童教會','青年大軍','好好家庭','其他聚會（含 611 ANEW）']},
+{name:'裝備與服事',aud:'mem',items:['裝備課程（含苗圃八福）','611學房','先知禱告隊','參與服事','琴與爐']},
+{name:'消息與活動',aud:'mem',items:['最新消息','生命的糧週刊','行事曆']}
+];
+var mcols=['<div class="tcol util"><div class="tn"><b>工具列</b></div><ul><li>搜尋</li><li>繁／EN／日</li><li>奉獻</li><li>同工入口（開組報數）</li></ul></div>'];
+var mn=0;
+M.forEach(function(s){
+  mn+=1+s.items.length;
+  mcols.push('<div class="tcol '+s.aud+'"><div class="tn"><b>'+esc(s.name)+'</b><span>'+s.items.length+' 項</span></div><ul>'+s.items.map(function(i){return '<li>'+esc(i)+'</li>'}).join('')+'</ul></div>');
+});
+document.getElementById('tree-menu').innerHTML='<div class="troot">首頁</div><div class="tcols flex">'+mcols.join('')+'</div>';
+document.getElementById('cmp-menu').textContent=mn+' 個（一級 5 個，下拉 '+(mn-5)+' 個）';
+var SC=[['今日晨禱','直接顯示今天的內容'],['主日講道','最新一堂'],['線上崇拜','開始時間與觀看按鈕'],['學房課表','本期課表'],['本週週刊','直接下載'],['近期活動','最近 3 個活動']];
+var OUT=[['小組長按立禮、破冰遊戲、MG12專欄、慈惠事工','MG12小組總覽頁，破冰遊戲維持公開'],['兒家大世界約 8 個節目、好好家庭影片 7 個節目','各一個列表頁'],['學房課程細項','611學房總覽頁'],['247愛耶穌總覽頁、守望與月朔禱告會、禱告專題、代禱與關懷','待決定：選單目前沒有位置'],['媒體報導、基督教聯會消息、舊的要聞與家事報告','歸檔，只能搜尋'],['復興建殿、施恩座、長洲伊甸園、神國舞台劇','頁尾或相關頁面內'],['開組報數（MG12小組匯報系統）','工具列的同工入口']];
+function xcard(t,rows){return '<article class="card xcard"><div class="card-h"><h3>'+t+'</h3></div><ul>'+rows.map(function(r){return '<li><span class="nm">'+esc(r[0])+'</span><span class="dest">'+esc(r[1])+'</span></li>'}).join('')+'</ul></article>'}
+document.getElementById('menu-extra').innerHTML=xcard('首頁捷徑（6 個，加搜尋框）',SC)+xcard('不放進選單的內容',OUT);
+var cnt=document.getElementById('count');
+function setCount(f){
+  var n=S.filter(function(s){return f==='all'||s.aud===f}).reduce(function(a,s){return a+count(s.pages)},0);
+  var k=S.filter(function(s){return f==='all'||s.aud===f}).length;
+  cnt.textContent=k+' 個分區 · '+n+' 個頁面';
+}
+setCount('all');
+document.querySelectorAll('.seg button').forEach(function(b){
+  b.addEventListener('click',function(){
+    var f=b.dataset.f;
+    document.querySelectorAll('.seg button').forEach(function(x){x.setAttribute('aria-pressed',String(x===b))});
+    document.querySelectorAll('.band').forEach(function(x){x.hidden=!(f==='all'||x.dataset.aud===f)});
+    setCount(f);
+  });
+});
+document.getElementById('map').addEventListener('change',function(e){
+  document.body.classList.toggle('showmap',e.target.checked);
+});
+</script>
+
+</body></html>
