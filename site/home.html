@@ -1,0 +1,561 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>611 靈糧堂 | 首頁</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@600;700&display=swap">
+<style>
+:root{
+  --bg:#FFFFFF; --soft:#F6F5EE; --ink:#1F2416; --muted:#575D49; --line:#E2E1D5;
+  --green:#3F6B22; --green-deep:#223617; --orange:#EE7022; --yellow:#EFCB45;
+  --on-deep:#F4F3E8; --on-deep-muted:#C9D1BC;
+  --font-body:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;
+  --font-head:"Noto Serif TC","Songti TC","PMingLiU",serif;
+  --ease:cubic-bezier(.16,1,.3,1);
+  --wrap:min(1200px,100% - 32px);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scrollbar-color:var(--green) var(--soft)}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 17px/1.75 var(--font-body);-webkit-font-smoothing:antialiased}
+::selection{background:var(--yellow);color:var(--ink)}
+a{color:inherit}
+img{max-width:100%;display:block}
+h1,h2,h3{font-family:var(--font-head);line-height:1.35;margin:0;text-wrap:balance}
+h2{font-size:clamp(1.5rem,1.2rem + 1.2vw,2rem);font-weight:700}
+h3{font-size:1.15rem;font-weight:700}
+p{margin:0}
+ul{list-style:none;margin:0;padding:0}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:3px solid var(--green);outline-offset:3px;border-radius:4px}
+.on-deep :focus-visible,.hero :focus-visible{outline-color:var(--yellow)}
+.wrap{width:var(--wrap);margin-inline:auto}
+.skip{position:absolute;left:-999px;top:8px;background:var(--ink);color:#fff;padding:10px 16px;z-index:100}
+.skip:focus{left:8px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+svg.i{width:1.25em;height:1.25em;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:10px 24px;border-radius:999px;border:2px solid transparent;font-weight:700;text-decoration:none;transition:background .2s,border-color .2s,transform .2s var(--ease)}
+.btn-primary{background:var(--orange);color:var(--ink)}
+.btn-primary:hover{background:#F5873F}
+.btn-ghost{border-color:currentColor;color:inherit;background:transparent}
+.btn-ghost:hover{background:rgba(255,255,255,.12)}
+.btn-line{border-color:var(--line);background:var(--bg)}
+.btn-line:hover{border-color:var(--green);color:var(--green)}
+.btn:active{transform:translateY(1px)}
+
+/* header */
+.top{position:sticky;top:0;z-index:50;background:var(--bg);border-bottom:1px solid var(--line)}
+.top .wrap{display:flex;align-items:center;gap:20px;min-height:72px}
+.logo img{height:50px;width:auto}
+.top nav{margin-left:auto}
+.nav{display:flex;align-items:center}
+.nav>li{position:relative}
+.nav>li>a,.nav>li>button{display:flex;align-items:center;gap:4px;min-height:48px;padding:0 14px;background:none;border:0;text-decoration:none;font-weight:500;white-space:nowrap}
+.nav>li>a:hover,.nav>li>button:hover,.nav>li:focus-within>a,.nav>li:focus-within>button{color:var(--green)}
+.nav .sub{position:absolute;left:0;top:100%;min-width:200px;background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:8px;box-shadow:0 12px 28px -8px rgba(31,36,22,.22);visibility:hidden;opacity:0;transform:translateY(-4px);transition:opacity .18s,transform .18s var(--ease),visibility .18s}
+.nav li:hover>.sub,.nav li:focus-within>.sub{visibility:visible;opacity:1;transform:none}
+.sub a{display:block;padding:10px 14px;border-radius:8px;text-decoration:none;min-height:44px}
+.sub a:hover{background:var(--soft);color:var(--green)}
+.tools{display:flex;align-items:center;gap:4px}
+.tool{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-width:48px;min-height:48px;background:none;border:0;border-radius:999px;text-decoration:none;font-size:.9rem}
+.tool:hover{background:var(--soft)}
+.tool select{appearance:none;background:none;border:0;font:inherit;font-size:.9rem;padding:0 4px;cursor:pointer}
+.menu-btn{display:none}
+.sub.mega{display:grid;grid-auto-flow:column;gap:8px 24px;padding:16px 20px}
+.sub.mega.two{grid-template-columns:repeat(2,minmax(150px,1fr))}
+.sub .col{display:flex;flex-direction:column;min-width:140px}
+.sub .col b{padding:4px 14px;font-size:.8rem;color:var(--muted);font-weight:700}
+.sub a.key{font-weight:700;color:var(--green)}
+.cta{min-height:44px;padding:6px 20px;margin-left:8px;white-space:nowrap}
+.only-m{display:none}
+
+/* hero */
+.hero{position:relative;background:var(--green-deep);color:var(--on-deep);overflow:hidden}
+.slides{position:relative;height:clamp(340px,46vh,420px)}
+.slide{position:absolute;inset:0;display:flex;align-items:center;opacity:0;visibility:hidden;transition:opacity .7s var(--ease),visibility .7s}
+.slide.on{opacity:1;visibility:visible}
+.slide .wrap{display:grid;gap:16px;max-width:760px;margin-left:max(16px,calc((100% - 1200px)/2));padding-block:24px 76px}
+.hero h1{font-size:clamp(1.9rem,1.2rem + 3vw,3.25rem);font-weight:700;color:#fff}
+.hero p.lead{font-size:clamp(1rem,.95rem + .4vw,1.2rem);color:var(--on-deep-muted);max-width:34em}
+.hero .actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:8px}
+.poster{position:absolute;inset:0;background:var(--green-deep)}
+
+.poster-stripe{position:absolute;right:0;top:0;bottom:0;width:34%;background:var(--green)}
+.poster-stripe::before,.poster-stripe::after{content:"";position:absolute;top:0;bottom:0;width:36%}
+.poster-stripe::before{left:0;background:var(--yellow)}
+.poster-stripe::after{left:36%;background:var(--orange)}
+.poster-note{position:absolute;right:16px;top:16px;z-index:2;background:rgba(255,255,255,.9);color:var(--ink);padding:2px 10px;border-radius:6px;font-size:.78rem}
+.slide .wrap{position:relative;z-index:2}
+.badge{display:inline-flex;align-items:center;gap:8px;width:fit-content;padding:2px 12px;border-radius:999px;background:var(--orange);color:var(--ink);font-weight:700;font-size:.9rem}
+.dot-live{width:10px;height:10px;border-radius:50%;background:var(--ink);animation:pulse 1.6s ease-in-out infinite}
+@keyframes pulse{50%{opacity:.35}}
+.meta{display:flex;flex-wrap:wrap;gap:6px 20px;color:var(--on-deep-muted);font-size:.95rem}
+.hero-ctl{position:absolute;left:0;right:0;bottom:12px;z-index:3}
+.hero-ctl .wrap{display:flex;align-items:center;gap:8px}
+.arrow{width:48px;height:48px;border-radius:50%;border:2px solid rgba(244,243,232,.55);background:rgba(34,54,23,.5);color:#fff;display:grid;place-items:center}
+.arrow:hover{background:rgba(255,255,255,.18)}
+.dots{display:flex;gap:2px}
+.dots button{width:44px;height:44px;background:none;border:0;display:grid;place-items:center}
+.dots button::before{content:"";width:12px;height:12px;border-radius:50%;border:2px solid #fff}
+.dots button[aria-current="true"]::before{background:var(--yellow);border-color:var(--yellow)}
+.preview{margin-left:auto;display:flex;align-items:center;gap:8px;font-size:.85rem;color:#fff;background:var(--green-deep);padding:0 14px;border-radius:999px}
+.preview label{display:flex;align-items:center;gap:8px;min-height:44px;cursor:pointer}
+.preview input{width:20px;height:20px;accent-color:var(--orange)}
+.slide[data-live="false"] .live-only,.slide[data-live="true"] .idle-only{display:none}
+
+/* sections */
+section{padding-block:clamp(48px,6vw,80px)}
+.sec-head{display:flex;flex-wrap:wrap;align-items:end;justify-content:space-between;gap:8px 24px;margin-bottom:24px}
+.sec-head .more{font-weight:700;color:var(--green);text-underline-offset:5px}
+.soft{background:var(--soft)}
+.note{color:var(--muted);font-size:.85rem}
+
+/* live picker */
+.picker{padding-block:clamp(32px,4vw,48px) 0}
+.picker-grid{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:20px}
+.picker-grid>*,.duo>*{min-width:0}
+.player{position:relative;aspect-ratio:16/9;background:var(--green-deep);color:#fff;border-radius:14px 14px 0 0;overflow:hidden;display:grid;place-items:center;text-align:center}
+.player .stripe{position:absolute;inset:auto 0 0 0;height:6px;background:linear-gradient(90deg,var(--yellow) 0 33%,var(--orange) 33% 66%,var(--green) 66%)}
+.player-body{display:grid;gap:12px;justify-items:center;padding:16px}
+.play{width:72px;height:72px;border-radius:50%;background:var(--orange);color:var(--ink);border:0;display:grid;place-items:center}
+.play svg{width:30px;height:30px;fill:currentColor;stroke:none;margin-left:4px}
+.count{font-variant-numeric:tabular-nums;font-size:clamp(1.5rem,1rem + 2vw,2.25rem);font-weight:700;letter-spacing:.02em}
+.player small{color:var(--on-deep-muted)}
+.chans{display:flex;gap:4px;overflow-x:auto;scroll-snap-type:x proximity;background:var(--bg);border:1px solid var(--line);border-top:0;border-radius:0 0 14px 14px;padding:6px;scrollbar-width:thin;mask-image:linear-gradient(90deg,#000 calc(100% - 36px),transparent)}
+.chans button,.chans a{flex:none;scroll-snap-align:start;display:flex;flex-direction:column;justify-content:center;min-height:56px;padding:4px 18px;border:0;border-radius:10px;background:none;text-decoration:none;text-align:left;font-weight:500}
+.chans button:hover,.chans a:hover{background:var(--soft)}
+.chans [aria-selected="true"],.chans [aria-selected="true"]:hover{background:var(--ink);color:#fff}
+.chans small{font-size:.78rem;font-weight:400;opacity:.8;font-variant-numeric:tabular-nums}
+.chans a.more-ch{color:var(--green);font-weight:700;flex-direction:row;align-items:center;gap:4px}
+.sched{position:relative;min-height:380px}
+.sched-in{position:absolute;inset:0;display:flex;flex-direction:column;border:1px solid var(--line);border-radius:14px;background:var(--bg);overflow:hidden}
+.sched.open{min-height:0}
+.sched.open .sched-in{position:static}
+.sched h3{padding:12px 16px;border-bottom:1px solid var(--line);font-size:1rem}
+.sched ul{flex:1;overflow:hidden}
+.sched li a{display:flex;gap:12px;align-items:baseline;min-height:48px;padding:8px 16px;border-bottom:1px solid var(--line);text-decoration:none;line-height:1.45}
+.sched li a:hover{background:var(--soft)}
+.sched time{flex:none;width:3.4em;font-variant-numeric:tabular-nums;color:var(--muted);font-size:.9rem}
+.sched .is-live a{background:#FFF1E6;font-weight:700}
+.sched .is-live .badge{margin-left:auto;flex:none;padding:0 8px;font-size:.78rem}
+.sched[data-live="false"] .is-live{display:none}
+.expand{display:flex;align-items:center;justify-content:center;gap:6px;min-height:48px;border:0;border-top:1px solid var(--line);background:var(--bg);font-weight:700;color:var(--green)}
+.expand svg{transition:transform .3s var(--ease)}
+.sched.open .expand svg{transform:rotate(180deg)}
+
+/* prayer + sermons */
+.duo{display:grid;grid-template-columns:1fr 1fr;gap:32px}
+.panel{display:grid;gap:16px;align-content:start}
+.days{display:grid;gap:4px}
+.day a{display:grid;grid-template-columns:5.2em 1fr auto;gap:12px;align-items:center;min-height:52px;padding:6px 14px;border-radius:10px;text-decoration:none;border:1px solid transparent}
+.day a:hover{background:var(--soft)}
+.day .d{font-variant-numeric:tabular-nums;font-weight:500}
+.day .tag{font-size:.8rem;color:var(--muted)}
+.day.read .d,.day.read .t{color:var(--muted)}
+.day.today a{background:var(--yellow);border-color:var(--yellow);font-weight:700}
+.day.today .tag{color:var(--ink);font-weight:700}
+.prayer-time{background:var(--soft);border-radius:12px;padding:12px 16px;font-size:.95rem}
+.sermons{display:grid;gap:16px}
+.card{display:grid;grid-template-columns:200px 1fr;gap:16px;text-decoration:none}
+.thumb{position:relative;aspect-ratio:16/9;background:#E9E8DB;border-radius:10px;overflow:hidden;display:grid;place-items:center;color:var(--muted);font-size:.8rem}
+.card h3{font-size:1.05rem}
+.card:hover h3{color:var(--green);text-decoration:underline;text-underline-offset:4px}
+.tags{display:flex;gap:6px;margin-top:6px}
+.tag-l{padding:0 10px;border-radius:999px;background:var(--soft);border:1px solid var(--line);font-size:.8rem}
+.links{display:flex;flex-wrap:wrap;gap:12px 24px;margin-top:4px}
+.links a{font-weight:700;color:var(--green);text-underline-offset:5px}
+
+/* news */
+.news-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:40px}
+.news-grid>*{min-width:0}
+.ann li a{display:grid;grid-template-columns:auto 1fr;gap:4px 14px;align-items:baseline;padding:14px 0;border-bottom:1px solid var(--line);text-decoration:none;min-height:56px}
+.ann li a:hover .ttl{color:var(--green);text-decoration:underline;text-underline-offset:4px}
+.cat{padding:0 10px;border-radius:999px;font-size:.8rem;background:var(--soft);border:1px solid var(--line);white-space:nowrap}
+.ann time{grid-column:2;color:var(--muted);font-size:.85rem}
+.events{position:relative}
+.ev-track{display:grid;grid-auto-flow:column;grid-auto-columns:100%;overflow-x:auto;scroll-snap-type:x mandatory;border-radius:14px;scrollbar-width:none}
+.ev-track::-webkit-scrollbar{display:none}
+.ev{scroll-snap-align:start;aspect-ratio:16/10;background:var(--green-deep);color:#fff;display:flex;flex-direction:column;justify-content:flex-end;gap:4px;padding:24px;text-decoration:none;position:relative}
+.ev:nth-child(2){background:#2E4A1E}
+.ev:nth-child(3){background:#34591B}
+.ev h3{font-size:1.4rem;color:#fff}
+.ev span{color:var(--on-deep-muted)}
+.ev .note{position:absolute;right:16px;top:12px;color:var(--on-deep-muted);font-size:.75rem}
+.ev-ctl{display:flex;align-items:center;gap:4px;margin-top:8px}
+.ev-ctl .arrow{border-color:var(--line);background:var(--bg);color:var(--ink)}
+.ev-ctl .arrow:hover{border-color:var(--green);color:var(--green)}
+
+/* ministries + equip */
+.areas{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.area{display:flex;flex-direction:column;gap:12px;text-decoration:none}
+.area .thumb{aspect-ratio:4/3;border-radius:12px}
+.area h3{font-size:1.05rem}
+.area:hover h3{color:var(--green);text-decoration:underline;text-underline-offset:4px}
+.area p{color:var(--muted);font-size:.95rem;line-height:1.6}
+.area-wide{grid-column:span 1}
+.equip{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border-top:2px solid var(--ink)}
+.equip a{display:flex;flex-direction:column;gap:6px;padding:20px 20px 24px 0;text-decoration:none;border-bottom:1px solid var(--line);min-height:120px}
+.equip a+a{padding-left:20px;border-left:1px solid var(--line)}
+.equip a:hover h3{color:var(--green);text-decoration:underline;text-underline-offset:4px}
+.equip p{color:var(--muted);font-size:.95rem;line-height:1.6}
+
+/* footer */
+.foot{background:var(--green-deep);color:var(--on-deep);padding-block:56px 32px}
+.foot a{text-decoration:none}
+.foot a:hover{text-decoration:underline;text-underline-offset:4px}
+.foot-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:32px}
+.foot h3{font-size:1rem;color:#fff;margin-bottom:8px}
+.foot li a{display:block;padding:6px 0;min-height:36px;color:var(--on-deep-muted)}
+.foot .brand{display:grid;gap:12px;align-content:start;color:var(--on-deep-muted)}
+.foot .brand img{background:#fff;border-radius:10px;padding:8px 12px;height:60px;width:auto}
+.vals summary{cursor:pointer;font-weight:700;min-height:44px;display:flex;align-items:center;color:#fff}
+.vals p{color:var(--on-deep-muted);padding-bottom:8px}
+.copy{margin-top:40px;padding-top:20px;border-top:1px solid rgba(244,243,232,.25);color:var(--on-deep-muted);font-size:.85rem}
+
+/* responsive */
+@media (max-width:1100px){
+  .nav{display:none}
+  .menu-btn{display:inline-flex}
+  .top.open .nav{display:flex;position:absolute;left:0;right:0;top:100%;flex-direction:column;align-items:stretch;background:var(--bg);border-bottom:1px solid var(--line);padding:8px 16px 16px;max-height:calc(100vh - 72px);overflow:auto}
+  .top.open .nav .sub{position:static;visibility:visible;opacity:1;transform:none;border:0;box-shadow:none;display:flex;flex-wrap:wrap;padding:0 0 8px 14px}
+  .top.open .nav .sub a{padding:8px 12px}
+  .tools{margin-left:auto}
+  .logo img{height:38px}
+}
+@media (max-width:900px){
+  .picker-grid{grid-template-columns:minmax(0,1fr)}
+  .sched{min-height:0}
+  .sched-in{position:static}
+  .sched ul{max-height:240px}
+  .sched.open ul{max-height:none}
+  .duo,.news-grid{grid-template-columns:1fr}
+  .areas{grid-template-columns:repeat(2,1fr)}
+  .equip{grid-template-columns:1fr 1fr}
+  .equip a:nth-child(odd){padding-left:0;border-left:0}
+  .foot-grid{grid-template-columns:1fr 1fr}
+  .slides{height:clamp(340px,58vh,420px)}
+  .poster-stripe{top:auto;left:0;width:auto;height:10px}
+  .poster-stripe::before,.poster-stripe::after{top:0;bottom:0;width:33.4%}
+  .poster-stripe::after{left:33.4%}
+  .poster-note{top:12px}
+  .preview span{display:none}
+}
+@media (max-width:560px){
+  body{font-size:16px}
+  .card{grid-template-columns:1fr}
+  .tools .search,.tools .staff{display:none}
+  .top.open .nav .only-m{display:block}
+  .cta{padding:6px 14px;margin-left:0}
+  .areas{gap:12px}
+  .foot-grid{grid-template-columns:1fr}
+  .hero .actions .btn{flex:1 1 140px}
+  .logo img{height:34px}
+  .top .wrap{gap:8px}
+  .preview{display:none}
+}
+@media (prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">跳到主要內容</a>
+
+<header class="top" id="top">
+  <div class="wrap">
+    <a class="logo" href="home.html" aria-label="611 靈糧堂 首頁"><img src="assets/logo-611.png" alt="611 靈糧堂 Bread of Life Christian Church" width="179" height="50"></a>
+    <nav aria-label="主選單">
+      <ul class="nav" id="nav">
+        <li><a href="#" aria-haspopup="true">認識 611</a>
+          <div class="sub"><a class="key" href="#">聚會時間與地點</a><a class="key" href="#">第一次來訪</a><a href="#">關於我們</a><a href="#">核心價值</a><a href="#">聯絡我們</a></div></li>
+        <li><a href="#watch" aria-haspopup="true">媒體 611</a>
+          <div class="sub mega">
+            <div class="col"><b>影音崇拜</b><a href="#">線上崇拜</a><a href="#">主日信息</a><a href="#">晨禱</a></div>
+            <div class="col"><b>影音企劃</b><a href="#">見證</a><a href="#">系列影片</a><a href="#">神國藝人戲劇</a></div>
+            <div class="col"><b>敬拜音樂</b><a href="#">敬拜</a><a href="#">音樂下載</a></div>
+            <div class="col"><b>出版物</b><a href="#">電子書</a></div>
+          </div></li>
+        <li><a href="#areas" aria-haspopup="true">牧區群體</a>
+          <div class="sub mega two">
+            <div class="col"><a href="#">MG小組</a><a href="#">豐盛牧區</a><a href="#">青年大軍</a><a href="#">兒童教會</a></div>
+            <div class="col"><a href="#">Anew</a><a href="#">喜樂小天使</a><a href="#">Lalala</a></div>
+          </div></li>
+        <li><a href="#equip" aria-haspopup="true">裝備與事工</a>
+          <div class="sub"><a href="#">裝備課程</a><a href="#">611學房</a><a href="#">先知禱告</a><a href="#">家庭事工</a><a href="#">琴與爐</a><a href="#">參與服事</a></div></li>
+        <li><a href="#news" aria-haspopup="true">消息與活動</a>
+          <div class="sub"><a href="#">最新消息／教會公告</a><a href="#">近期活動與報名</a><a href="#">每週週報</a></div></li>
+        <li class="only-m"><a href="#">搜尋</a></li>
+        <li class="only-m"><a href="#">同工入口</a></li>
+      </ul>
+    </nav>
+    <div class="tools">
+      <a class="tool search" href="#" aria-label="搜尋"><svg class="i" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg></a>
+      <label class="tool"><span class="sr">語言</span><select aria-label="語言切換"><option>繁中</option><option>EN</option><option>日本語</option></select></label>
+      <a class="tool staff" href="#" aria-label="同工入口"><svg class="i" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4 4-6 8-6s7 2 8 6"/></svg></a>
+      <a class="btn btn-primary cta" href="#">線上奉獻</a>
+      <button class="tool menu-btn" id="menuBtn" aria-expanded="false" aria-controls="nav" aria-label="選單"><svg class="i" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+<!-- 1. Hero -->
+<div class="hero" role="region" aria-roledescription="輪播" aria-label="歡迎與最新崇拜" id="hero">
+  <div class="slides" aria-live="off">
+    <div class="slide on" id="s1" aria-label="第 1 張，共 2 張">
+      <div class="poster" aria-hidden="true"><div class="poster-stripe"></div></div>
+      <span class="poster-note">歡迎影片位置 · 教會提供後替換</span>
+      <div class="wrap">
+        <h1>歡迎回家，<br>一起來認識神</h1>
+        <p class="lead">不論你是第一次來，或是想更多認識 611，這裡有你需要的資訊。</p>
+        <div class="actions">
+          <a class="btn btn-primary" href="#">第一次來訪</a>
+          <a class="btn btn-ghost" href="#">聚會時間與地點</a>
+        </div>
+      </div>
+    </div>
+    <div class="slide" id="s2" data-live="false" aria-label="第 2 張，共 2 張">
+      <div class="poster" aria-hidden="true"><div class="poster-stripe"></div></div>
+      <div class="wrap">
+        <span class="badge live-only"><span class="dot-live"></span>直播中</span>
+        <h1>最新崇拜：不再一樣的生命</h1>
+        <div class="meta"><span>講員：（示意）陳牧師</span><span>2026 年 11 月 1 日</span><span>粵語／普通話</span></div>
+        <div class="actions">
+          <a class="btn btn-primary live-only" href="#watch">立即觀看</a>
+          <a class="btn btn-primary idle-only" href="#">觀看整場崇拜</a>
+          <a class="btn btn-ghost" href="#">更多崇拜內容</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="hero-ctl on-deep">
+    <div class="wrap">
+      <button class="arrow" id="prev" aria-label="上一張"><svg class="i" viewBox="0 0 24 24"><path d="m15 5-7 7 7 7"/></svg></button>
+      <div class="dots" id="dots"><button aria-label="第 1 張" aria-current="true"></button><button aria-label="第 2 張" aria-current="false"></button></div>
+      <button class="arrow" id="next" aria-label="下一張"><svg class="i" viewBox="0 0 24 24"><path d="m9 5 7 7-7 7"/></svg></button>
+      <div class="preview"><label><input type="checkbox" id="liveToggle"><span>預覽：直播中狀態（審核用）</span></label></div>
+    </div>
+  </div>
+</div>
+
+<!-- 2. 直播選台區 -->
+<section class="picker" id="watch" aria-labelledby="watch-h">
+  <div class="wrap">
+    <div class="sec-head"><h2 id="watch-h">直播與崇拜</h2><a class="more" href="#">更多崇拜內容</a></div>
+    <div class="picker-grid">
+      <div>
+        <div class="player" role="group" aria-label="播放器">
+          <div class="player-body">
+            <button class="play" aria-label="播放"><svg viewBox="0 0 24 24"><path d="M6 4v16l14-8z"/></svg></button>
+            <div class="count" id="count" aria-live="off">01:12:00</div>
+            <small id="count-label">距離晨禱直播開始</small>
+          </div>
+          <div class="stripe"></div>
+        </div>
+        <div class="chans" role="tablist" aria-label="頻道">
+          <button role="tab" aria-selected="true" data-n="晨禱" data-t="距離晨禱直播開始">晨禱<small>01:12:00</small></button>
+          <button role="tab" aria-selected="false" data-n="主日崇拜" data-t="距離主日崇拜開始">主日崇拜<small>週日 10:00</small></button>
+          <button role="tab" aria-selected="false" data-n="跟隨神" data-t="跟隨神 系列">跟隨神</button>
+          <button role="tab" aria-selected="false" data-n="Gen TOL" data-t="Gen TOL 系列">Gen TOL</button>
+          <button role="tab" aria-selected="false" data-n="敬拜" data-t="敬拜">敬拜</button>
+          <a class="more-ch" href="#">更多<svg class="i" viewBox="0 0 24 24"><path d="m9 5 7 7-7 7"/></svg></a>
+        </div>
+      </div>
+      <aside class="sched" id="sched" data-live="false" aria-label="時間表">
+        <div class="sched-in">
+          <h3>時間表 <span class="note">示意資料</span></h3>
+          <ul>
+            <li class="is-live"><a href="#"><time>07:00</time>晨禱直播<span class="badge"><span class="dot-live"></span>直播中</span></a></li>
+            <li><a href="#"><time>07:00</time>晨禱（粵語／普通話）</a></li>
+            <li><a href="#"><time>10:00</time>主日崇拜 重播</a></li>
+            <li><a href="#"><time>12:30</time>跟隨神 第 4 集</a></li>
+            <li><a href="#"><time>14:00</time>Gen TOL 青年崇拜</a></li>
+            <li><a href="#"><time>16:30</time>敬拜之夜 精選</a></li>
+            <li><a href="#"><time>19:00</time>見證分享</a></li>
+            <li><a href="#"><time>20:30</time>戲劇事工 短片</a></li>
+            <li><a href="#"><time>21:00</time>晨禱重播（英語）</a></li>
+            <li><a href="#"><time>21:30</time>晨禱重播（Tagalog）</a></li>
+            <li><a href="#"><time>22:00</time>晨禱重播（Bahasa Indonesia）</a></li>
+            <li><a href="#"><time>22:30</time>晨禱重播（Español）</a></li>
+          </ul>
+          <button class="expand" id="expand" aria-expanded="false"><span>展開全部</span><svg class="i" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg></button>
+        </div>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<!-- 3. 晨禱讀經 + 主日講道 -->
+<section aria-labelledby="prayer-h">
+  <div class="wrap duo">
+    <div class="panel" id="prayer">
+      <div class="sec-head" style="margin:0"><h2 id="prayer-h">晨禱讀經</h2><span class="note">讀經進度為示意</span></div>
+      <p class="prayer-time">現場晨禱：週二至週五 07:00（粵語、普通話同步直播）。週六、日、一只有讀經，沒有直播。</p>
+      <ul class="days">
+        <li class="day read"><a href="#"><span class="d">11/1 週日</span><span class="t">約翰福音 第 1 章</span><span class="tag">只有讀經</span></a></li>
+        <li class="day read"><a href="#"><span class="d">11/2 週一</span><span class="t">約翰福音 第 2 章</span><span class="tag">只有讀經</span></a></li>
+        <li class="day today"><a href="#" aria-current="date"><span class="d">11/3 週二</span><span class="t">約翰福音 第 3 章</span><span class="tag">今天</span></a></li>
+        <li class="day"><a href="#"><span class="d">11/4 週三</span><span class="t">約翰福音 第 4 章</span><span class="tag"></span></a></li>
+        <li class="day"><a href="#"><span class="d">11/5 週四</span><span class="t">約翰福音 第 5 章</span><span class="tag"></span></a></li>
+        <li class="day"><a href="#"><span class="d">11/6 週五</span><span class="t">約翰福音 第 6 章</span><span class="tag"></span></a></li>
+        <li class="day read"><a href="#"><span class="d">11/7 週六</span><span class="t">約翰福音 第 7 章</span><span class="tag">只有讀經</span></a></li>
+        <li class="day read"><a href="#"><span class="d">11/8 週日</span><span class="t">約翰福音 第 8 章</span><span class="tag">只有讀經</span></a></li>
+        <li class="day read"><a href="#"><span class="d">11/9 週一</span><span class="t">約翰福音 第 9 章</span><span class="tag">只有讀經</span></a></li>
+        <li class="day"><a href="#"><span class="d">11/10 週二</span><span class="t">約翰福音 第 10 章</span><span class="tag"></span></a></li>
+        <li class="day"><a href="#"><span class="d">11/11 週三</span><span class="t">約翰福音 第 11 章</span><span class="tag"></span></a></li>
+        <li class="day"><a href="#"><span class="d">11/12 週四</span><span class="t">約翰福音 第 12 章</span><span class="tag"></span></a></li>
+        <li class="day"><a href="#"><span class="d">11/13 週五</span><span class="t">約翰福音 第 13 章</span><span class="tag"></span></a></li>
+        <li class="day read"><a href="#"><span class="d">11/14 週六</span><span class="t">約翰福音 第 14 章</span><span class="tag">只有讀經</span></a></li>
+      </ul>
+    </div>
+    <div class="panel">
+      <div class="sec-head" style="margin:0"><h2>主日講道</h2><span class="note">內容為示意</span></div>
+      <div class="sermons">
+        <a class="card" href="#"><div class="thumb" role="img" aria-label="講道縮圖位置">縮圖位置</div><div><h3>不再一樣的生命</h3><p class="note">2026 年 11 月 1 日 · 陳牧師（示意）</p><div class="tags"><span class="tag-l">普</span><span class="tag-l">粵</span></div></div></a>
+        <a class="card" href="#"><div class="thumb" role="img" aria-label="講道縮圖位置">縮圖位置</div><div><h3>回到起初的愛</h3><p class="note">2026 年 10 月 25 日 · 李牧師（示意）</p><div class="tags"><span class="tag-l">普</span><span class="tag-l">粵</span></div></div></a>
+      </div>
+      <div class="links"><a href="#">講道筆記</a><a href="#">更多講道</a></div>
+    </div>
+  </div>
+</section>
+
+<!-- 4. 公告 + 活動 -->
+<section class="soft" id="news" aria-labelledby="news-h">
+  <div class="wrap news-grid">
+    <div class="ann">
+      <div class="sec-head"><h2 id="news-h">最新公告</h2><a class="more" href="#">全部公告</a></div>
+      <ul>
+        <li><a href="#"><span class="cat">崇拜</span><span class="ttl">本週主日崇拜時間與座位安排</span><time>11 月 2 日</time></a></li>
+        <li><a href="#"><span class="cat">小組</span><span class="ttl">新一季小組開始報名</span><time>10 月 30 日</time></a></li>
+        <li><a href="#"><span class="cat">洗禮</span><span class="ttl">十二月洗禮班報名</span><time>10 月 28 日</time></a></li>
+        <li><a href="#"><span class="cat">兒童</span><span class="ttl">兒童教會家長通知</span><time>10 月 26 日</time></a></li>
+        <li><a href="#"><span class="cat">服事</span><span class="ttl">同工培訓日期更新</span><time>10 月 24 日</time></a></li>
+      </ul>
+      <p class="note" style="margin-top:12px">公告標題為示意文字，由教會提供正式內容。</p>
+    </div>
+    <div class="events">
+      <div class="sec-head"><h2>活動</h2><a class="more" href="#">全部活動</a></div>
+      <div class="ev-track" id="evTrack" tabindex="0" aria-label="活動輪播">
+        <a class="ev" href="#"><span class="note">海報位置</span><h3>感恩見證主日</h3><span>11 月 22 日 · 荃灣本堂</span></a>
+        <a class="ev" href="#"><span class="note">海報位置</span><h3>青年大軍 聖誕營</h3><span>12 月 12 日 · 示意</span></a>
+        <a class="ev" href="#"><span class="note">海報位置</span><h3>聖誕崇拜</h3><span>12 月 24 日 · 荃灣本堂</span></a>
+      </div>
+      <div class="ev-ctl"><button class="arrow" id="evPrev" aria-label="上一個活動"><svg class="i" viewBox="0 0 24 24"><path d="m15 5-7 7 7 7"/></svg></button><button class="arrow" id="evNext" aria-label="下一個活動"><svg class="i" viewBox="0 0 24 24"><path d="m9 5 7 7-7 7"/></svg></button></div>
+    </div>
+  </div>
+</section>
+
+<!-- 5. 牧區 -->
+<section id="join" aria-labelledby="areas-h">
+  <div class="wrap">
+    <div class="sec-head"><h2 id="areas-h">為你和家人預備的地方</h2><a class="more" href="#">所有牧區</a></div>
+    <div class="areas" id="areas">
+      <a class="area" href="#"><div class="thumb" role="img" aria-label="照片位置">照片位置</div><h3>兒童教會</h3><p>讓孩子在愛中認識神。</p></a>
+      <a class="area" href="#"><div class="thumb" role="img" aria-label="照片位置">照片位置</div><h3>青年大軍</h3><p>青年人一起成長、同行。</p></a>
+      <a class="area" href="#"><div class="thumb" role="img" aria-label="照片位置">照片位置</div><h3>Mercy House</h3><p>憐憫與關懷的事工。</p></a>
+      <a class="area" href="#"><div class="thumb" role="img" aria-label="照片位置">照片位置</div><h3>豐盛120</h3><p>示意說明，待教會提供。</p></a>
+      <a class="area" href="#"><div class="thumb" role="img" aria-label="照片位置">照片位置</div><h3>Lalala</h3><p>示意說明，待教會提供。</p></a>
+      <a class="area" href="#"><div class="thumb" role="img" aria-label="照片位置">照片位置</div><h3>哈利路亞崇拜</h3><p>示意說明，待教會提供。</p></a>
+      <a class="area" href="#"><div class="thumb" role="img" aria-label="照片位置">照片位置</div><h3>家庭事工</h3><p>建立穩固的家庭。</p></a>
+    </div>
+  </div>
+</section>
+
+<!-- 6. 裝備 -->
+<section class="soft" id="equip" aria-labelledby="equip-h">
+  <div class="wrap">
+    <div class="sec-head"><h2 id="equip-h">裝備自己，被神使用</h2><a class="more" href="#">所有裝備</a></div>
+    <div class="equip">
+      <a href="#"><h3>裝備課程</h3><p>系統地認識信仰與服事。</p></a>
+      <a href="#"><h3>學房</h3><p>示意說明，待教會提供。</p></a>
+      <a href="#"><h3>生命樹教育</h3><p>示意說明，待教會提供。</p></a>
+      <a href="#"><h3>Hisco</h3><p>示意說明，待教會提供。</p></a>
+    </div>
+  </div>
+</section>
+</main>
+
+<!-- 7. 頁尾 -->
+<footer class="foot">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="brand"><img src="assets/logo-611.png" alt="611 靈糧堂" width="160" height="45"><p>荃灣本堂（地址與聯絡資料待教會提供）</p></div>
+      <div><h3>觀看</h3><ul><li><a href="#">講道／崇拜</a></li><li><a href="#">系列影片</a></li><li><a href="#">敬拜</a></li></ul></div>
+      <div><h3>參與</h3><ul><li><a href="#">加入小組</a></li><li><a href="#">洗禮入會</a></li><li><a href="#">參與服事</a></li></ul></div>
+      <div><h3>聯絡</h3><ul><li><a href="#">聯絡我們</a></li><li><a href="#">社群連結</a></li><li><a href="#">下載 APP</a></li></ul></div>
+    </div>
+    <details class="vals" style="margin-top:24px"><summary>核心價值</summary><p>核心價值內容由教會提供。</p></details>
+    <p class="copy">© 611 靈糧堂 Bread of Life Christian Church · 網站設計示意稿</p>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var $=function(s,r){return (r||document).querySelector(s)}, $$=function(s,r){return [].slice.call((r||document).querySelectorAll(s))};
+  var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* mobile menu */
+  var top=$('#top'), mb=$('#menuBtn');
+  mb.addEventListener('click',function(){var o=top.classList.toggle('open');mb.setAttribute('aria-expanded',o)});
+
+  /* hero carousel */
+  var slides=$$('.slide'), dots=$$('#dots button'), cur=0, timer, hero=$('#hero'), paused=false;
+  function go(n){
+    cur=(n+slides.length)%slides.length;
+    slides.forEach(function(s,i){s.classList.toggle('on',i===cur)});
+    dots.forEach(function(d,i){d.setAttribute('aria-current',i===cur)});
+  }
+  function start(){clearInterval(timer);if(!reduce)timer=setInterval(function(){if(!paused)go(cur+1)},9000)}
+  $('#prev').onclick=function(){go(cur-1);start()};
+  $('#next').onclick=function(){go(cur+1);start()};
+  dots.forEach(function(d,i){d.onclick=function(){go(i);start()}});
+  hero.addEventListener('mouseenter',function(){paused=true});
+  hero.addEventListener('mouseleave',function(){paused=false});
+  hero.addEventListener('focusin',function(){paused=true});
+  hero.addEventListener('focusout',function(){paused=false});
+  start();
+
+  /* live state preview (review only) */
+  var sched=$('#sched'), s2=$('#s2');
+  $('#liveToggle').addEventListener('change',function(e){
+    var v=e.target.checked?'true':'false';
+    s2.dataset.live=v; sched.dataset.live=v;
+  });
+
+  /* schedule expand: collapsed shows ~8 rows */
+  var ex=$('#expand');
+  ex.addEventListener('click',function(){
+    var o=sched.classList.toggle('open');
+    ex.setAttribute('aria-expanded',o);
+    $('span',ex).textContent=o?'收合':'展開全部';
+  });
+
+  /* channel tabs */
+  var tabs=$$('.chans [role=tab]');
+  tabs.forEach(function(t){t.addEventListener('click',function(){
+    tabs.forEach(function(x){x.setAttribute('aria-selected',x===t)});
+    $('#count-label').textContent=t.dataset.t;
+  })});
+
+  /* countdown (sample: 1h12m from load) */
+  var end=Date.now()+72*60*1000, c=$('#count'), small=$('.chans small');
+  function pad(n){return String(n).padStart(2,'0')}
+  setInterval(function(){
+    var s=Math.max(0,Math.floor((end-Date.now())/1000));
+    var t=pad(Math.floor(s/3600))+':'+pad(Math.floor(s%3600/60))+':'+pad(s%60);
+    c.textContent=t; small.textContent=t;
+  },1000);
+
+  /* events carousel */
+  var tr=$('#evTrack');
+  function evStep(d){tr.scrollBy({left:d*tr.clientWidth,behavior:reduce?'auto':'smooth'})}
+  $('#evPrev').onclick=function(){evStep(-1)};
+  $('#evNext').onclick=function(){evStep(1)};
+})();
+</script>
+</body>
+</html>
