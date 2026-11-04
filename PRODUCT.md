@@ -8,7 +8,9 @@ web
 
 ## Stack
 
-Static HTML/CSS mockup in `site/`, deployed to GitHub Pages on every push to `main` (`.github/workflows/pages.yml`), for pastor and staff review. The real site will be built on Payload CMS + Next.js; the mockup does not need to use them.
+Real site (proposal stage, per `docs/architect.md` in the website-revamp repo): Payload 3 CMS running on Next.js, plus a public site rendered with Astro SSR.
+
+Mockup in `site/`: plain HTML with CSS variables and a small amount of vanilla JS (carousels, menu, tabs, expand/collapse), no framework or build step, so it ports easily to Astro. It is deployed to GitHub Pages on every push to `main` (`.github/workflows/pages.yml`) for pastor and staff review.
 
 ## Users
 
@@ -34,15 +36,16 @@ The live-stream "channel picker" (choose a service or series like choosing a TV 
 
 ## Capabilities and Constraints
 
-- Menu (7 items): Watch, Locations, Join, Equip, News, Give, About. Toolbar: search, language switch, staff portal. Equip and News submenus are undecided.
-- Locations lists only the Tsuen Wan main campus (one page with interactive map, transport, parking); branch locations live under About.
-- Join pages each end with an application form button.
+- Menu (5 items, concise version): About Us (service time and location, first visit, about, core values, contact), Media (video worship incl. morning prayer, video features, worship music, publications), Ministries (MG groups, Abundance, Youth, Children, Anew, Joyful Angels, Lalala), Equip & Serve (courses, 611 Academy, prophetic prayer, family, Harp & Bowl, serve), News & Events (announcements, events and sign-up, weekly bulletin).
+- Media and Ministries use a multi-column mega menu. A single prominent button sits at the right of the header: "線上奉獻" (provisional; "本週主日直播" is the alternative). Toolbar: search, language switch, staff portal.
+- Service time and location (one page for the Tsuen Wan main campus with interactive map, transport, parking, branch guidance) lives under About Us, not as its own menu item. "First visit" and "service time and location" are visually emphasized in the menu and surfaced as quick entries in the hero.
+- Morning prayer reading progress stays on the homepage; morning prayer video is also reachable from Media.
 - Homepage order: hero carousel (2 slides), live channel picker, morning prayer + Sunday sermons, announcements + event carousel, pastoral areas, equip, footer.
 - Hero slide 1: welcome video, muted and looping on desktop, static poster on mobile, data-saver, and reduced-motion. Slide 2: latest service with live and not-live states.
 - Fonts suggested: Noto Sans TC (body), Noto Serif TC (headings).
 - Section names describe what the visitor wants to do, not the org chart.
 - Content model will eventually live in Payload CMS, so mockups should map to editable collections and fields.
-- Open: pre-stream countdown on hero slide 2; Equip/News dropdowns; pastoral area order; who updates the event carousel and how often; whether channel countdowns show only when starting soon; giving provider; livestream/sermon sources.
+- Open: header button wording; where baptism/join-a-group pages sit in the new menu; whether homepage ministry/equip blocks match the menu lists; pre-stream countdown on hero slide 2; pastoral area order; who updates the event carousel and how often; whether channel countdowns show only when starting soon; giving provider; livestream/sermon sources.
 
 ## Brand Commitments
 

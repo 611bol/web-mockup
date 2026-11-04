@@ -51,7 +51,8 @@ svg.i{width:1.25em;height:1.25em;fill:none;stroke:currentColor;stroke-width:2;st
 .top{position:sticky;top:0;z-index:50;background:var(--bg);border-bottom:1px solid var(--line)}
 .top .wrap{display:flex;align-items:center;gap:20px;min-height:72px}
 .logo img{height:50px;width:auto}
-.nav{margin-left:auto;display:flex;align-items:center}
+.top nav{margin-left:auto}
+.nav{display:flex;align-items:center}
 .nav>li{position:relative}
 .nav>li>a,.nav>li>button{display:flex;align-items:center;gap:4px;min-height:48px;padding:0 14px;background:none;border:0;text-decoration:none;font-weight:500;white-space:nowrap}
 .nav>li>a:hover,.nav>li>button:hover,.nav>li:focus-within>a,.nav>li:focus-within>button{color:var(--green)}
@@ -64,7 +65,13 @@ svg.i{width:1.25em;height:1.25em;fill:none;stroke:currentColor;stroke-width:2;st
 .tool:hover{background:var(--soft)}
 .tool select{appearance:none;background:none;border:0;font:inherit;font-size:.9rem;padding:0 4px;cursor:pointer}
 .menu-btn{display:none}
-.give{margin-left:4px}
+.sub.mega{display:grid;grid-auto-flow:column;gap:8px 24px;padding:16px 20px}
+.sub.mega.two{grid-template-columns:repeat(2,minmax(150px,1fr))}
+.sub .col{display:flex;flex-direction:column;min-width:140px}
+.sub .col b{padding:4px 14px;font-size:.8rem;color:var(--muted);font-weight:700}
+.sub a.key{font-weight:700;color:var(--green)}
+.cta{min-height:44px;padding:6px 20px;margin-left:8px;white-space:nowrap}
+.only-m{display:none}
 
 /* hero */
 .hero{position:relative;background:var(--green-deep);color:var(--on-deep);overflow:hidden}
@@ -240,7 +247,9 @@ section{padding-block:clamp(48px,6vw,80px)}
 @media (max-width:560px){
   body{font-size:16px}
   .card{grid-template-columns:1fr}
-  .give,.tool.search span{display:none}
+  .tools .search,.tools .staff{display:none}
+  .top.open .nav .only-m{display:block}
+  .cta{padding:6px 14px;margin-left:0}
   .areas{gap:12px}
   .foot-grid{grid-template-columns:1fr}
   .hero .actions .btn{flex:1 1 140px}
@@ -261,22 +270,33 @@ section{padding-block:clamp(48px,6vw,80px)}
     <a class="logo" href="home.html" aria-label="611 靈糧堂 首頁"><img src="assets/logo-611.png" alt="611 靈糧堂 Bread of Life Christian Church" width="179" height="50"></a>
     <nav aria-label="主選單">
       <ul class="nav" id="nav">
-        <li><a href="#watch" aria-haspopup="true">觀看 Watch</a>
-          <div class="sub"><a href="#">講道／崇拜</a><a href="#">系列影片</a><a href="#">見證</a><a href="#">敬拜</a><a href="#">戲劇</a></div></li>
-        <li><a href="#">位置 Locations</a></li>
-        <li><a href="#join" aria-haspopup="true">參與 Join</a>
-          <div class="sub"><a href="#">加入小組</a><a href="#">洗禮入會</a><a href="#areas">牧區</a><a href="#">參與服事</a></div></li>
-        <li><a href="#equip">裝備 Equip</a></li>
-        <li><a href="#news">要聞 News</a></li>
-        <li><a href="#">奉獻 Give</a></li>
-        <li><a href="#" aria-haspopup="true">關於 About</a>
-          <div class="sub"><a href="#">關於我們</a><a href="#">分堂位置</a><a href="#">聯絡我們</a></div></li>
+        <li><a href="#" aria-haspopup="true">認識 611</a>
+          <div class="sub"><a class="key" href="#">聚會時間與地點</a><a class="key" href="#">第一次來訪</a><a href="#">關於我們</a><a href="#">核心價值</a><a href="#">聯絡我們</a></div></li>
+        <li><a href="#watch" aria-haspopup="true">媒體 611</a>
+          <div class="sub mega">
+            <div class="col"><b>影音崇拜</b><a href="#">線上崇拜</a><a href="#">主日信息</a><a href="#">晨禱</a></div>
+            <div class="col"><b>影音企劃</b><a href="#">見證</a><a href="#">系列影片</a><a href="#">神國藝人戲劇</a></div>
+            <div class="col"><b>敬拜音樂</b><a href="#">敬拜</a><a href="#">音樂下載</a></div>
+            <div class="col"><b>出版物</b><a href="#">電子書</a></div>
+          </div></li>
+        <li><a href="#areas" aria-haspopup="true">牧區群體</a>
+          <div class="sub mega two">
+            <div class="col"><a href="#">MG小組</a><a href="#">豐盛牧區</a><a href="#">青年大軍</a><a href="#">兒童教會</a></div>
+            <div class="col"><a href="#">Anew</a><a href="#">喜樂小天使</a><a href="#">Lalala</a></div>
+          </div></li>
+        <li><a href="#equip" aria-haspopup="true">裝備與事工</a>
+          <div class="sub"><a href="#">裝備課程</a><a href="#">611學房</a><a href="#">先知禱告</a><a href="#">家庭事工</a><a href="#">琴與爐</a><a href="#">參與服事</a></div></li>
+        <li><a href="#news" aria-haspopup="true">消息與活動</a>
+          <div class="sub"><a href="#">最新消息／教會公告</a><a href="#">近期活動與報名</a><a href="#">每週週報</a></div></li>
+        <li class="only-m"><a href="#">搜尋</a></li>
+        <li class="only-m"><a href="#">同工入口</a></li>
       </ul>
     </nav>
     <div class="tools">
       <a class="tool search" href="#" aria-label="搜尋"><svg class="i" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg></a>
       <label class="tool"><span class="sr">語言</span><select aria-label="語言切換"><option>繁中</option><option>EN</option><option>日本語</option></select></label>
-      <a class="tool" href="#" aria-label="同工入口"><svg class="i" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4 4-6 8-6s7 2 8 6"/></svg></a>
+      <a class="tool staff" href="#" aria-label="同工入口"><svg class="i" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4 4-6 8-6s7 2 8 6"/></svg></a>
+      <a class="btn btn-primary cta" href="#">線上奉獻</a>
       <button class="tool menu-btn" id="menuBtn" aria-expanded="false" aria-controls="nav" aria-label="選單"><svg class="i" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
     </div>
   </div>
@@ -294,7 +314,7 @@ section{padding-block:clamp(48px,6vw,80px)}
         <p class="lead">不論你是第一次來，或是想更多認識 611，這裡有你需要的資訊。</p>
         <div class="actions">
           <a class="btn btn-primary" href="#">第一次來訪</a>
-          <a class="btn btn-ghost" href="#">認識 611</a>
+          <a class="btn btn-ghost" href="#">聚會時間與地點</a>
         </div>
       </div>
     </div>
