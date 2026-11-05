@@ -67,6 +67,7 @@ svg.i{width:1.25em;height:1.25em;fill:none;stroke:currentColor;stroke-width:2;st
 .menu-btn{display:none}
 .sub.mega{display:grid;grid-auto-flow:column;gap:8px 24px;padding:16px 20px}
 .sub.mega.two{grid-template-columns:repeat(2,minmax(150px,1fr))}
+.sub.mega.three{grid-template-columns:repeat(3,minmax(150px,1fr))}
 .sub .col{display:flex;flex-direction:column;min-width:140px}
 .sub .col b{padding:4px 14px;font-size:.8rem;color:var(--muted);font-weight:700}
 .sub a.key{font-weight:700;color:var(--green)}
@@ -75,37 +76,22 @@ svg.i{width:1.25em;height:1.25em;fill:none;stroke:currentColor;stroke-width:2;st
 
 /* hero */
 .hero{position:relative;background:var(--green-deep);color:var(--on-deep);overflow:hidden}
-.slides{position:relative;height:clamp(340px,46vh,420px)}
-.slide{position:absolute;inset:0;display:flex;align-items:center;opacity:0;visibility:hidden;transition:opacity .7s var(--ease),visibility .7s}
-.slide.on{opacity:1;visibility:visible}
-.slide .wrap{display:grid;gap:16px;max-width:760px;margin-left:max(16px,calc((100% - 1200px)/2));padding-block:24px 76px}
+.hero-in{position:relative;display:flex;align-items:center;min-height:clamp(340px,46vh,420px)}
+.hero-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 62%}
+.hero-in::before{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(90deg,rgba(24,38,16,.94) 0,rgba(24,38,16,.82) 45%,rgba(24,38,16,.35) 100%)}
+.hero-in .wrap{position:relative;z-index:2;display:grid;gap:16px;max-width:760px;margin-left:max(16px,calc((100% - 1200px)/2));padding-block:40px}
 .hero h1{font-size:clamp(1.9rem,1.2rem + 3vw,3.25rem);font-weight:700;color:#fff}
-.hero p.lead{font-size:clamp(1rem,.95rem + .4vw,1.2rem);color:var(--on-deep-muted);max-width:34em}
+.hero p.lead{font-size:clamp(1rem,.95rem + .4vw,1.2rem);color:var(--on-deep);max-width:34em}
 .hero .actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:8px}
-.poster{position:absolute;inset:0;background:var(--green-deep)}
-
-.poster-stripe{position:absolute;right:0;top:0;bottom:0;width:34%;background:var(--green)}
-.poster-stripe::before,.poster-stripe::after{content:"";position:absolute;top:0;bottom:0;width:36%}
-.poster-stripe::before{left:0;background:var(--yellow)}
-.poster-stripe::after{left:36%;background:var(--orange)}
 .poster-note{position:absolute;right:16px;top:16px;z-index:2;background:rgba(255,255,255,.9);color:var(--ink);padding:2px 10px;border-radius:6px;font-size:.78rem}
-.slide .wrap{position:relative;z-index:2}
 .badge{display:inline-flex;align-items:center;gap:8px;width:fit-content;padding:2px 12px;border-radius:999px;background:var(--orange);color:var(--ink);font-weight:700;font-size:.9rem}
 .dot-live{width:10px;height:10px;border-radius:50%;background:var(--ink);animation:pulse 1.6s ease-in-out infinite}
 @keyframes pulse{50%{opacity:.35}}
-.meta{display:flex;flex-wrap:wrap;gap:6px 20px;color:var(--on-deep-muted);font-size:.95rem}
-.hero-ctl{position:absolute;left:0;right:0;bottom:12px;z-index:3}
-.hero-ctl .wrap{display:flex;align-items:center;gap:8px}
 .arrow{width:48px;height:48px;border-radius:50%;border:2px solid rgba(244,243,232,.55);background:rgba(34,54,23,.5);color:#fff;display:grid;place-items:center}
 .arrow:hover{background:rgba(255,255,255,.18)}
-.dots{display:flex;gap:2px}
-.dots button{width:44px;height:44px;background:none;border:0;display:grid;place-items:center}
-.dots button::before{content:"";width:12px;height:12px;border-radius:50%;border:2px solid #fff}
-.dots button[aria-current="true"]::before{background:var(--yellow);border-color:var(--yellow)}
-.preview{margin-left:auto;display:flex;align-items:center;gap:8px;font-size:.85rem;color:#fff;background:var(--green-deep);padding:0 14px;border-radius:999px}
+.preview{display:flex;align-items:center;font-size:.85rem}
 .preview label{display:flex;align-items:center;gap:8px;min-height:44px;cursor:pointer}
 .preview input{width:20px;height:20px;accent-color:var(--orange)}
-.slide[data-live="false"] .live-only,.slide[data-live="true"] .idle-only{display:none}
 
 /* sections */
 section{padding-block:clamp(48px,6vw,80px)}
@@ -161,6 +147,7 @@ section{padding-block:clamp(48px,6vw,80px)}
 .prayer-time{background:var(--soft);border-radius:12px;padding:12px 16px;font-size:.95rem}
 .sermons{display:grid;gap:16px}
 .card{display:grid;grid-template-columns:200px 1fr;gap:16px;text-decoration:none}
+.thumb img{width:100%;height:100%;object-fit:cover}
 .thumb{position:relative;aspect-ratio:16/9;background:#E9E8DB;border-radius:10px;overflow:hidden;display:grid;place-items:center;color:var(--muted);font-size:.8rem}
 .card h3{font-size:1.05rem}
 .card:hover h3{color:var(--green);text-decoration:underline;text-underline-offset:4px}
@@ -172,34 +159,35 @@ section{padding-block:clamp(48px,6vw,80px)}
 /* news */
 .news-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:40px}
 .news-grid>*{min-width:0}
-.ann li a{display:grid;grid-template-columns:auto 1fr;gap:4px 14px;align-items:baseline;padding:14px 0;border-bottom:1px solid var(--line);text-decoration:none;min-height:56px}
+.ann li a{display:grid;grid-template-columns:5.2em 1fr;gap:4px 14px;align-items:baseline;padding:14px 0;border-bottom:1px solid var(--line);text-decoration:none;min-height:56px}
 .ann li a:hover .ttl{color:var(--green);text-decoration:underline;text-underline-offset:4px}
-.cat{padding:0 10px;border-radius:999px;font-size:.8rem;background:var(--soft);border:1px solid var(--line);white-space:nowrap}
+.cat{text-align:center;padding:0 10px;border-radius:999px;font-size:.8rem;background:var(--soft);border:1px solid var(--line);white-space:nowrap}
 .ann time{grid-column:2;color:var(--muted);font-size:.85rem}
 .events{position:relative}
 .ev-track{display:grid;grid-auto-flow:column;grid-auto-columns:100%;overflow-x:auto;scroll-snap-type:x mandatory;border-radius:14px;scrollbar-width:none}
 .ev-track::-webkit-scrollbar{display:none}
-.ev{scroll-snap-align:start;aspect-ratio:16/10;background:var(--green-deep);color:#fff;display:flex;flex-direction:column;justify-content:flex-end;gap:4px;padding:24px;text-decoration:none;position:relative}
-.ev:nth-child(2){background:#2E4A1E}
-.ev:nth-child(3){background:#34591B}
-.ev h3{font-size:1.4rem;color:#fff}
-.ev span{color:var(--on-deep-muted)}
-.ev .note{position:absolute;right:16px;top:12px;color:var(--on-deep-muted);font-size:.75rem}
+.ev{scroll-snap-align:start;display:grid;align-content:start;gap:12px;text-decoration:none;min-width:0}
+.ev img{width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;border-radius:14px;background:var(--line)}
+.ev h3{font-size:1.2rem}
+.ev span{color:var(--muted);font-size:.95rem}
+.ev:hover h3{color:var(--green);text-decoration:underline;text-underline-offset:4px}
 .ev-ctl{display:flex;align-items:center;gap:4px;margin-top:8px}
 .ev-ctl .arrow{border-color:var(--line);background:var(--bg);color:var(--ink)}
 .ev-ctl .arrow:hover{border-color:var(--green);color:var(--green)}
 
 /* ministries + equip */
-.areas{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
-.area{display:flex;flex-direction:column;gap:12px;text-decoration:none}
+.areas{display:grid;grid-template-columns:repeat(12,1fr);gap:24px 16px}
+.area{grid-column:span 3;display:flex;flex-direction:column;gap:12px;text-decoration:none}
+.area:nth-child(n+5){grid-column:span 4}
 .area .thumb{aspect-ratio:4/3;border-radius:12px}
 .area h3{font-size:1.05rem}
 .area:hover h3{color:var(--green);text-decoration:underline;text-underline-offset:4px}
 .area p{color:var(--muted);font-size:.95rem;line-height:1.6}
-.area-wide{grid-column:span 1}
-.equip{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border-top:2px solid var(--ink)}
-.equip a{display:flex;flex-direction:column;gap:6px;padding:20px 20px 24px 0;text-decoration:none;border-bottom:1px solid var(--line);min-height:120px}
+.equip{display:grid;grid-template-columns:repeat(12,1fr);border-top:2px solid var(--ink)}
+.equip a{grid-column:span 3;display:flex;flex-direction:column;gap:6px;padding:20px 20px 24px 0;text-decoration:none;border-bottom:1px solid var(--line);min-height:120px}
+.equip a:nth-child(n+5){grid-column:span 4}
 .equip a+a{padding-left:20px;border-left:1px solid var(--line)}
+.equip a:nth-child(1),.equip a:nth-child(5){padding-left:0;border-left:0}
 .equip a:hover h3{color:var(--green);text-decoration:underline;text-underline-offset:4px}
 .equip p{color:var(--muted);font-size:.95rem;line-height:1.6}
 
@@ -212,8 +200,6 @@ section{padding-block:clamp(48px,6vw,80px)}
 .foot li a{display:block;padding:6px 0;min-height:36px;color:var(--on-deep-muted)}
 .foot .brand{display:grid;gap:12px;align-content:start;color:var(--on-deep-muted)}
 .foot .brand img{background:#fff;border-radius:10px;padding:8px 12px;height:60px;width:auto}
-.vals summary{cursor:pointer;font-weight:700;min-height:44px;display:flex;align-items:center;color:#fff}
-.vals p{color:var(--on-deep-muted);padding-bottom:8px}
 .copy{margin-top:40px;padding-top:20px;border-top:1px solid rgba(244,243,232,.25);color:var(--on-deep-muted);font-size:.85rem}
 
 /* responsive */
@@ -233,16 +219,13 @@ section{padding-block:clamp(48px,6vw,80px)}
   .sched ul{max-height:240px}
   .sched.open ul{max-height:none}
   .duo,.news-grid{grid-template-columns:1fr}
-  .areas{grid-template-columns:repeat(2,1fr)}
-  .equip{grid-template-columns:1fr 1fr}
+  .area,.area:nth-child(n+5){grid-column:span 6}
+  .equip a,.equip a:nth-child(n+5){grid-column:span 6}
+  .equip a:nth-child(n){padding-left:20px;border-left:1px solid var(--line)}
   .equip a:nth-child(odd){padding-left:0;border-left:0}
   .foot-grid{grid-template-columns:1fr 1fr}
-  .slides{height:clamp(340px,58vh,420px)}
-  .poster-stripe{top:auto;left:0;width:auto;height:10px}
-  .poster-stripe::before,.poster-stripe::after{top:0;bottom:0;width:33.4%}
-  .poster-stripe::after{left:33.4%}
+  .hero-in{min-height:clamp(340px,58vh,420px)}
   .poster-note{top:12px}
-  .preview span{display:none}
 }
 @media (max-width:560px){
   body{font-size:16px}
@@ -250,12 +233,14 @@ section{padding-block:clamp(48px,6vw,80px)}
   .tools .search,.tools .staff{display:none}
   .top.open .nav .only-m{display:block}
   .cta{padding:6px 14px;margin-left:0}
-  .areas{gap:12px}
+  .areas{gap:20px 12px}
+  .area,.area:nth-child(n+5){grid-column:span 12}
+  .equip a,.equip a:nth-child(n+5){grid-column:span 12}
+  .equip a:nth-child(n){padding-left:0;border-left:0}
   .foot-grid{grid-template-columns:1fr}
   .hero .actions .btn{flex:1 1 140px}
   .logo img{height:34px}
   .top .wrap{gap:8px}
-  .preview{display:none}
 }
 @media (prefers-reduced-motion:reduce){
   *{animation:none!important;transition:none!important;scroll-behavior:auto!important}
@@ -271,23 +256,22 @@ section{padding-block:clamp(48px,6vw,80px)}
     <nav aria-label="主選單">
       <ul class="nav" id="nav">
         <li><a href="#" aria-haspopup="true">認識 611</a>
-          <div class="sub"><a class="key" href="#">聚會時間與地點</a><a class="key" href="#">第一次來訪</a><a href="#">關於我們</a><a href="#">核心價值</a><a href="#">聯絡我們</a></div></li>
-        <li><a href="#watch" aria-haspopup="true">媒體 611</a>
-          <div class="sub mega">
-            <div class="col"><b>影音崇拜</b><a href="#">線上崇拜</a><a href="#">主日信息</a><a href="#">晨禱</a></div>
-            <div class="col"><b>影音企劃</b><a href="#">見證</a><a href="#">系列影片</a><a href="#">神國藝人戲劇</a></div>
-            <div class="col"><b>敬拜音樂</b><a href="#">敬拜</a><a href="#">音樂下載</a></div>
-            <div class="col"><b>出版物</b><a href="#">電子書</a></div>
-          </div></li>
-        <li><a href="#areas" aria-haspopup="true">牧區群體</a>
+          <div class="sub"><a href="#">認識 611</a><a class="key" href="#">初次到訪</a><a href="#">全球分堂</a><a class="key" href="#">崇拜時間地點</a><a href="#">交通方式</a></div></li>
+        <li><a href="#watch" aria-haspopup="true">媒體專區</a>
           <div class="sub mega two">
-            <div class="col"><a href="#">MG小組</a><a href="#">豐盛牧區</a><a href="#">青年大軍</a><a href="#">兒童教會</a></div>
-            <div class="col"><a href="#">Anew</a><a href="#">喜樂小天使</a><a href="#">Lalala</a></div>
+            <div class="col"><a href="#prayer">晨禱讀經</a><a href="#">主日講道</a><a href="#">見證</a><a href="#">系列影片</a></div>
+            <div class="col"><a href="#">神國舞台劇</a><a href="#">敬拜</a><a href="#">電子書</a></div>
           </div></li>
-        <li><a href="#equip" aria-haspopup="true">裝備與事工</a>
-          <div class="sub"><a href="#">裝備課程</a><a href="#">611學房</a><a href="#">先知禱告</a><a href="#">家庭事工</a><a href="#">琴與爐</a><a href="#">參與服事</a></div></li>
+        <li><a href="#areas" aria-haspopup="true">牧養與群體</a>
+          <div class="sub mega three">
+            <div class="col"><a href="#">MG12 小組</a><a href="#">兒童教會</a><a href="#">青年大軍</a><a href="#">豐盛 120</a></div>
+            <div class="col"><a href="#">ANEW</a><a href="#">喜樂小天使</a><a href="#">Lalala</a></div>
+            <div class="col"><b>踏出下一步</b><a href="#">洗禮入會</a><a href="#">加入小組</a></div>
+          </div></li>
+        <li><a href="#equip" aria-haspopup="true">裝備與服事</a>
+          <div class="sub"><a href="#">裝備課程</a><a href="#">學房</a><a href="#">好好家庭</a><a href="#">先知禱告</a><a href="#">琴與爐</a><a href="#">參與服事</a><a href="#">HISCO</a></div></li>
         <li><a href="#news" aria-haspopup="true">消息與活動</a>
-          <div class="sub"><a href="#">最新消息／教會公告</a><a href="#">近期活動與報名</a><a href="#">每週週報</a></div></li>
+          <div class="sub"><a href="#">最新消息</a><a href="#">要聞</a><a href="#bulletin">週刊</a></div></li>
         <li class="only-m"><a href="#">搜尋</a></li>
         <li class="only-m"><a href="#">同工入口</a></li>
       </ul>
@@ -296,48 +280,25 @@ section{padding-block:clamp(48px,6vw,80px)}
       <a class="tool search" href="#" aria-label="搜尋"><svg class="i" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg></a>
       <label class="tool"><span class="sr">語言</span><select aria-label="語言切換"><option>繁中</option><option>EN</option><option>日本語</option></select></label>
       <a class="tool staff" href="#" aria-label="同工入口"><svg class="i" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4 4-6 8-6s7 2 8 6"/></svg></a>
-      <a class="btn btn-primary cta" href="#">線上奉獻</a>
+      <a class="btn btn-primary cta" href="#">奉獻</a>
       <button class="tool menu-btn" id="menuBtn" aria-expanded="false" aria-controls="nav" aria-label="選單"><svg class="i" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
     </div>
   </div>
 </header>
 
 <main id="main">
-<!-- 1. Hero -->
-<div class="hero" role="region" aria-roledescription="輪播" aria-label="歡迎與最新崇拜" id="hero">
-  <div class="slides" aria-live="off">
-    <div class="slide on" id="s1" aria-label="第 1 張，共 2 張">
-      <div class="poster" aria-hidden="true"><div class="poster-stripe"></div></div>
-      <span class="poster-note">歡迎影片位置 · 教會提供後替換</span>
-      <div class="wrap">
-        <h1>歡迎回家，<br>一起來認識神</h1>
-        <p class="lead">不論你是第一次來，或是想更多認識 611，這裡有你需要的資訊。</p>
-        <div class="actions">
-          <a class="btn btn-primary" href="#">第一次來訪</a>
-          <a class="btn btn-ghost" href="#">聚會時間與地點</a>
-        </div>
-      </div>
-    </div>
-    <div class="slide" id="s2" data-live="false" aria-label="第 2 張，共 2 張">
-      <div class="poster" aria-hidden="true"><div class="poster-stripe"></div></div>
-      <div class="wrap">
-        <span class="badge live-only"><span class="dot-live"></span>直播中</span>
-        <h1>最新崇拜：不再一樣的生命</h1>
-        <div class="meta"><span>講員：（示意）陳牧師</span><span>2026 年 11 月 1 日</span><span>粵語／普通話</span></div>
-        <div class="actions">
-          <a class="btn btn-primary live-only" href="#watch">立即觀看</a>
-          <a class="btn btn-primary idle-only" href="#">觀看整場崇拜</a>
-          <a class="btn btn-ghost" href="#">更多崇拜內容</a>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="hero-ctl on-deep">
+<!-- 1. Hero（1 張）：歡迎影片位置，目前暫用 25 週年照片作海報 -->
+<div class="hero" role="region" aria-label="歡迎">
+  <div class="hero-in">
+    <img class="hero-bg" src="assets/hero-25th.jpg" alt="" width="1280" height="853" fetchpriority="high">
+    <span class="poster-note">暫用海報 · 歡迎影片由教會提供後替換</span>
     <div class="wrap">
-      <button class="arrow" id="prev" aria-label="上一張"><svg class="i" viewBox="0 0 24 24"><path d="m15 5-7 7 7 7"/></svg></button>
-      <div class="dots" id="dots"><button aria-label="第 1 張" aria-current="true"></button><button aria-label="第 2 張" aria-current="false"></button></div>
-      <button class="arrow" id="next" aria-label="下一張"><svg class="i" viewBox="0 0 24 24"><path d="m9 5 7 7-7 7"/></svg></button>
-      <div class="preview"><label><input type="checkbox" id="liveToggle"><span>預覽：直播中狀態（審核用）</span></label></div>
+      <h1>歡迎回家，<br>一起來認識神</h1>
+      <p class="lead">不論你是第一次來，或是想更多認識 611，這裡有你需要的資訊。</p>
+      <div class="actions">
+        <a class="btn btn-primary" href="#">初次到訪</a>
+        <a class="btn btn-ghost" href="#">崇拜時間地點</a>
+      </div>
     </div>
   </div>
 </div>
@@ -345,7 +306,7 @@ section{padding-block:clamp(48px,6vw,80px)}
 <!-- 2. 直播選台區 -->
 <section class="picker" id="watch" aria-labelledby="watch-h">
   <div class="wrap">
-    <div class="sec-head"><h2 id="watch-h">直播與崇拜</h2><a class="more" href="#">更多崇拜內容</a></div>
+    <div class="sec-head"><h2 id="watch-h">直播與崇拜</h2><div class="preview"><label><input type="checkbox" id="liveToggle"><span>預覽：直播中狀態（審核用）</span></label></div><a class="more" href="#">更多崇拜內容</a></div>
     <div class="picker-grid">
       <div>
         <div class="player" role="group" aria-label="播放器">
@@ -413,10 +374,10 @@ section{padding-block:clamp(48px,6vw,80px)}
       </ul>
     </div>
     <div class="panel">
-      <div class="sec-head" style="margin:0"><h2>主日講道</h2><span class="note">內容為示意</span></div>
+      <div class="sec-head" style="margin:0"><h2>主日講道</h2></div>
       <div class="sermons">
-        <a class="card" href="#"><div class="thumb" role="img" aria-label="講道縮圖位置">縮圖位置</div><div><h3>不再一樣的生命</h3><p class="note">2026 年 11 月 1 日 · 陳牧師（示意）</p><div class="tags"><span class="tag-l">普</span><span class="tag-l">粵</span></div></div></a>
-        <a class="card" href="#"><div class="thumb" role="img" aria-label="講道縮圖位置">縮圖位置</div><div><h3>回到起初的愛</h3><p class="note">2026 年 10 月 25 日 · 李牧師（示意）</p><div class="tags"><span class="tag-l">普</span><span class="tag-l">粵</span></div></div></a>
+        <a class="card" href="https://church611.org/sermon/"><div class="thumb"><img src="assets/sermon-ptfLx7KJ0sI.jpg" alt="成為神的僕人，永遠蒙福！講道封面" width="1280" height="720" loading="lazy"></div><div><h3>成為神的僕人，永遠蒙福！</h3><p class="note">2026 年 11 月 1 日 · 張恩年牧師</p><div class="tags"><span class="tag-l">普</span><span class="tag-l">粵</span></div></div></a>
+        <a class="card" href="https://church611.org/sermon/"><div class="thumb"><img src="assets/sermon-YPJeynZDSL8.jpg" alt="迦勒的專心：堅持到底 實有嘢睇 講道封面" width="1280" height="720" loading="lazy"></div><div><h3>迦勒的專心：堅持到底 實有嘢睇</h3><p class="note">2026 年 10 月 25 日</p><div class="tags"><span class="tag-l">普</span><span class="tag-l">粵</span></div></div></a>
       </div>
       <div class="links"><a href="#">講道筆記</a><a href="#">更多講道</a></div>
     </div>
@@ -427,22 +388,23 @@ section{padding-block:clamp(48px,6vw,80px)}
 <section class="soft" id="news" aria-labelledby="news-h">
   <div class="wrap news-grid">
     <div class="ann">
-      <div class="sec-head"><h2 id="news-h">最新公告</h2><a class="more" href="#">全部公告</a></div>
+      <div class="sec-head"><h2 id="news-h">最新消息</h2><a class="more" href="#">全部消息</a></div>
       <ul>
-        <li><a href="#"><span class="cat">崇拜</span><span class="ttl">本週主日崇拜時間與座位安排</span><time>11 月 2 日</time></a></li>
-        <li><a href="#"><span class="cat">小組</span><span class="ttl">新一季小組開始報名</span><time>10 月 30 日</time></a></li>
-        <li><a href="#"><span class="cat">洗禮</span><span class="ttl">十二月洗禮班報名</span><time>10 月 28 日</time></a></li>
-        <li><a href="#"><span class="cat">兒童</span><span class="ttl">兒童教會家長通知</span><time>10 月 26 日</time></a></li>
-        <li><a href="#"><span class="cat">服事</span><span class="ttl">同工培訓日期更新</span><time>10 月 24 日</time></a></li>
+        <li><a href="#"><span class="cat">最新消息</span><span class="ttl">本週主日崇拜時間與座位安排</span><time>11 月 2 日</time></a></li>
+        <li><a href="#"><span class="cat">最新消息</span><span class="ttl">新一季小組開始報名</span><time>10 月 30 日</time></a></li>
+        <li><a href="#"><span class="cat">要聞</span><span class="ttl">十二月洗禮班報名</span><time>10 月 28 日</time></a></li>
+        <li><a href="#"><span class="cat">最新消息</span><span class="ttl">兒童教會家長通知</span><time>10 月 26 日</time></a></li>
+        <li><a href="#"><span class="cat">要聞</span><span class="ttl">同工培訓日期更新</span><time>10 月 24 日</time></a></li>
       </ul>
-      <p class="note" style="margin-top:12px">公告標題為示意文字，由教會提供正式內容。</p>
+      <p class="note" style="margin-top:12px">消息標題為示意文字，由教會提供正式內容。</p>
+      <div class="links" id="bulletin"><a href="#">本週週刊</a></div>
     </div>
     <div class="events">
       <div class="sec-head"><h2>活動</h2><a class="more" href="#">全部活動</a></div>
       <div class="ev-track" id="evTrack" tabindex="0" aria-label="活動輪播">
-        <a class="ev" href="#"><span class="note">海報位置</span><h3>感恩見證主日</h3><span>11 月 22 日 · 荃灣本堂</span></a>
-        <a class="ev" href="#"><span class="note">海報位置</span><h3>青年大軍 聖誕營</h3><span>12 月 12 日 · 示意</span></a>
-        <a class="ev" href="#"><span class="note">海報位置</span><h3>聖誕崇拜</h3><span>12 月 24 日 · 荃灣本堂</span></a>
+        <a class="ev" href="#"><img src="assets/event-new-moon.jpg" alt="月朔・堅固臺禱告會海報，11 月 6 日晚上 7 點，施恩座" width="1280" height="720" loading="lazy"><h3>月朔・堅固臺禱告會</h3><span>11 月 6 日 · 施恩座</span></a>
+        <a class="ev" href="#"><img src="assets/event-indonesian.jpg" alt="Indonesian Pesta 海報，11 月 22 日下午 1 點，BIC Youth Zone" width="1280" height="720" loading="lazy"><h3>Indonesian Pesta 印尼語牧區聚會</h3><span>11 月 22 日 · BIC Youth Zone</span></a>
+        <a class="ev" href="#"><img src="assets/event-marketplace.jpg" alt="職場領袖學房招生簡介會海報" width="1280" height="720" loading="lazy"><h3>職場領袖學房招生簡介會</h3><span>詳見海報</span></a>
       </div>
       <div class="ev-ctl"><button class="arrow" id="evPrev" aria-label="上一個活動"><svg class="i" viewBox="0 0 24 24"><path d="m15 5-7 7 7 7"/></svg></button><button class="arrow" id="evNext" aria-label="下一個活動"><svg class="i" viewBox="0 0 24 24"><path d="m9 5 7 7-7 7"/></svg></button></div>
     </div>
@@ -452,15 +414,15 @@ section{padding-block:clamp(48px,6vw,80px)}
 <!-- 5. 牧區 -->
 <section id="join" aria-labelledby="areas-h">
   <div class="wrap">
-    <div class="sec-head"><h2 id="areas-h">為你和家人預備的地方</h2><a class="more" href="#">所有牧區</a></div>
+    <div class="sec-head"><h2 id="areas-h">為你和家人預備的地方</h2><a class="more" href="#">所有牧養與群體</a></div>
     <div class="areas" id="areas">
+      <a class="area" href="#"><div class="thumb" role="img" aria-label="照片位置">照片位置</div><h3>MG12 小組</h3><p>示意說明，待教會提供。</p></a>
       <a class="area" href="#"><div class="thumb" role="img" aria-label="照片位置">照片位置</div><h3>兒童教會</h3><p>讓孩子在愛中認識神。</p></a>
       <a class="area" href="#"><div class="thumb" role="img" aria-label="照片位置">照片位置</div><h3>青年大軍</h3><p>青年人一起成長、同行。</p></a>
-      <a class="area" href="#"><div class="thumb" role="img" aria-label="照片位置">照片位置</div><h3>Mercy House</h3><p>憐憫與關懷的事工。</p></a>
-      <a class="area" href="#"><div class="thumb" role="img" aria-label="照片位置">照片位置</div><h3>豐盛120</h3><p>示意說明，待教會提供。</p></a>
+      <a class="area" href="#"><div class="thumb" role="img" aria-label="照片位置">照片位置</div><h3>豐盛 120</h3><p>示意說明，待教會提供。</p></a>
+      <a class="area" href="#"><div class="thumb" role="img" aria-label="照片位置">照片位置</div><h3>ANEW</h3><p>示意說明，待教會提供。</p></a>
+      <a class="area" href="#"><div class="thumb" role="img" aria-label="照片位置">照片位置</div><h3>喜樂小天使</h3><p>示意說明，待教會提供。</p></a>
       <a class="area" href="#"><div class="thumb" role="img" aria-label="照片位置">照片位置</div><h3>Lalala</h3><p>示意說明，待教會提供。</p></a>
-      <a class="area" href="#"><div class="thumb" role="img" aria-label="照片位置">照片位置</div><h3>哈利路亞崇拜</h3><p>示意說明，待教會提供。</p></a>
-      <a class="area" href="#"><div class="thumb" role="img" aria-label="照片位置">照片位置</div><h3>家庭事工</h3><p>建立穩固的家庭。</p></a>
     </div>
   </div>
 </section>
@@ -468,12 +430,15 @@ section{padding-block:clamp(48px,6vw,80px)}
 <!-- 6. 裝備 -->
 <section class="soft" id="equip" aria-labelledby="equip-h">
   <div class="wrap">
-    <div class="sec-head"><h2 id="equip-h">裝備自己，被神使用</h2><a class="more" href="#">所有裝備</a></div>
+    <div class="sec-head"><h2 id="equip-h">裝備自己，被神使用</h2><a class="more" href="#">所有裝備與服事</a></div>
     <div class="equip">
       <a href="#"><h3>裝備課程</h3><p>系統地認識信仰與服事。</p></a>
       <a href="#"><h3>學房</h3><p>示意說明，待教會提供。</p></a>
-      <a href="#"><h3>生命樹教育</h3><p>示意說明，待教會提供。</p></a>
-      <a href="#"><h3>Hisco</h3><p>示意說明，待教會提供。</p></a>
+      <a href="#"><h3>好好家庭</h3><p>示意說明，待教會提供。</p></a>
+      <a href="#"><h3>先知禱告</h3><p>示意說明，待教會提供。</p></a>
+      <a href="#"><h3>琴與爐</h3><p>示意說明，待教會提供。</p></a>
+      <a href="#"><h3>參與服事</h3><p>示意說明，待教會提供。</p></a>
+      <a href="#"><h3>HISCO</h3><p>示意說明，待教會提供。</p></a>
     </div>
   </div>
 </section>
@@ -484,11 +449,10 @@ section{padding-block:clamp(48px,6vw,80px)}
   <div class="wrap">
     <div class="foot-grid">
       <div class="brand"><img src="assets/logo-611.png" alt="611 靈糧堂" width="160" height="45"><p>荃灣本堂（地址與聯絡資料待教會提供）</p></div>
-      <div><h3>觀看</h3><ul><li><a href="#">講道／崇拜</a></li><li><a href="#">系列影片</a></li><li><a href="#">敬拜</a></li></ul></div>
+      <div><h3>媒體與消息</h3><ul><li><a href="#">講道／崇拜</a></li><li><a href="#">系列影片</a></li><li><a href="#">敬拜</a></li><li><a href="#">週刊</a></li></ul></div>
       <div><h3>參與</h3><ul><li><a href="#">加入小組</a></li><li><a href="#">洗禮入會</a></li><li><a href="#">參與服事</a></li></ul></div>
       <div><h3>聯絡</h3><ul><li><a href="#">聯絡我們</a></li><li><a href="#">社群連結</a></li><li><a href="#">下載 APP</a></li></ul></div>
     </div>
-    <details class="vals" style="margin-top:24px"><summary>核心價值</summary><p>核心價值內容由教會提供。</p></details>
     <p class="copy">© 611 靈糧堂 Bread of Life Christian Church · 網站設計示意稿</p>
   </div>
 </footer>
@@ -502,28 +466,10 @@ section{padding-block:clamp(48px,6vw,80px)}
   var top=$('#top'), mb=$('#menuBtn');
   mb.addEventListener('click',function(){var o=top.classList.toggle('open');mb.setAttribute('aria-expanded',o)});
 
-  /* hero carousel */
-  var slides=$$('.slide'), dots=$$('#dots button'), cur=0, timer, hero=$('#hero'), paused=false;
-  function go(n){
-    cur=(n+slides.length)%slides.length;
-    slides.forEach(function(s,i){s.classList.toggle('on',i===cur)});
-    dots.forEach(function(d,i){d.setAttribute('aria-current',i===cur)});
-  }
-  function start(){clearInterval(timer);if(!reduce)timer=setInterval(function(){if(!paused)go(cur+1)},9000)}
-  $('#prev').onclick=function(){go(cur-1);start()};
-  $('#next').onclick=function(){go(cur+1);start()};
-  dots.forEach(function(d,i){d.onclick=function(){go(i);start()}});
-  hero.addEventListener('mouseenter',function(){paused=true});
-  hero.addEventListener('mouseleave',function(){paused=false});
-  hero.addEventListener('focusin',function(){paused=true});
-  hero.addEventListener('focusout',function(){paused=false});
-  start();
-
   /* live state preview (review only) */
-  var sched=$('#sched'), s2=$('#s2');
+  var sched=$('#sched');
   $('#liveToggle').addEventListener('change',function(e){
-    var v=e.target.checked?'true':'false';
-    s2.dataset.live=v; sched.dataset.live=v;
+    sched.dataset.live=e.target.checked?'true':'false';
   });
 
   /* schedule expand: collapsed shows ~8 rows */
