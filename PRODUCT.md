@@ -31,21 +31,21 @@ The live-stream "channel picker" (choose a service or series like choosing a TV 
 
 - Languages: Traditional Chinese primary; core pages in Chinese, English, and Japanese. Pages with no Japanese version are hidden in the Japanese interface. Japanese serves the Japan branch.
 - Morning prayer replays by language: Cantonese/Mandarin (audio plus YouTube), English, Tagalog, Bahasa Indonesia, Español. Live prayer runs in Cantonese and Mandarin at the same time.
-- Reference material in `ref/`: competitor analysis of chc.org.sg (intent-based IA), elevationchurch.org analysis (2-slide hero, "next step" module on sermon pages), kingdomcity.com, and earlier 611 sitemap drafts (20261029, 20261030).
+- Reference material in `ref/`: competitor analysis of chc.org.sg (intent-based IA), elevationchurch.org analysis (2-slide hero, which 611 does not copy: one slide, "next step" module on sermon pages), kingdomcity.com, and earlier 611 sitemap drafts (20261029, 20261030).
 - `site/index.html` is currently a sitemap/IA diagram, not yet a page design.
 
 ## Capabilities and Constraints
 
-- Menu (5 items, concise version): About Us (service time and location, first visit, about, core values, contact), Media (video worship incl. morning prayer, video features, worship music, publications), Ministries (MG groups, Abundance, Youth, Children, Anew, Joyful Angels, Lalala), Equip & Serve (courses, 611 Academy, prophetic prayer, family, Harp & Bowl, serve), News & Events (announcements, events and sign-up, weekly bulletin).
-- Media and Ministries use a multi-column mega menu. A single prominent button sits at the right of the header: "線上奉獻" (provisional; "本週主日直播" is the alternative). Toolbar: search, language switch, staff portal.
-- Service time and location (one page for the Tsuen Wan main campus with interactive map, transport, parking, branch guidance) lives under About Us, not as its own menu item. "First visit" and "service time and location" are visually emphasized in the menu and surfaced as quick entries in the hero.
+- Menu (v7, 5 items plus a header button; the `精簡選單版` section of `site/index.html` is the IA record): 認識 611 (認識 611, 初次到訪, 全球分堂, 崇拜時間地點, 交通方式), 媒體專區 (晨禱讀經, 主日講道, 見證, 系列影片, 神國舞台劇, 敬拜, 電子書), 牧養與群體 (MG12 小組, 兒童教會, 青年大軍, 豐盛 120, ANEW, 喜樂小天使, Lalala, plus a 踏出下一步 column: 洗禮入會, 加入小組), 裝備與服事 (裝備課程, 學房, 好好家庭, 先知禱告, 琴與爐, 參與服事, HISCO), 消息與活動 (最新消息, 要聞, 週刊). 好好家庭 is a hub page for the couples camp, parent-child group, premarital course and the 好好家庭報 sub-site; its videos live in 系列影片.
+- Media and 牧養與群體 use a multi-column mega menu. A single prominent button sits at the right of the header: "奉獻" ("本週主日直播" was the alternative). Toolbar: search, language switch, staff portal.
+- Service time and location (one page for the Tsuen Wan main campus with interactive map, transport, parking, branch guidance) lives under About Us, not as its own menu item. "初次到訪" and "崇拜時間地點" are visually emphasized in the menu and surfaced as quick entries in the hero.
 - Morning prayer reading progress stays on the homepage; morning prayer video is also reachable from Media.
-- Homepage order: hero carousel (2 slides), live channel picker, morning prayer + Sunday sermons, announcements + event carousel, pastoral areas, equip, footer.
-- Hero slide 1: welcome video, muted and looping on desktop, static poster on mobile, data-saver, and reduced-motion. Slide 2: latest service with live and not-live states.
+- Homepage order: single hero (no carousel), live channel picker, morning prayer + Sunday sermons, latest news (最新消息, 要聞) + event carousel with a weekly bulletin (週刊) entry, 牧養與群體 (7 cards), 裝備與服事 (7 items), footer without core values.
+- Hero: welcome video, muted and looping on desktop, static poster on mobile, data-saver, and reduced-motion. Buttons: 初次到訪, 崇拜時間地點. The live state lives in the channel picker, not the hero.
 - Fonts suggested: Noto Sans TC (body), Noto Serif TC (headings).
 - Section names describe what the visitor wants to do, not the org chart.
 - Content model will eventually live in Payload CMS, so mockups should map to editable collections and fields.
-- Open: header button wording; where baptism/join-a-group pages sit in the new menu; whether homepage ministry/equip blocks match the menu lists; pre-stream countdown on hero slide 2; pastoral area order; who updates the event carousel and how often; whether channel countdowns show only when starting soon; giving provider; livestream/sermon sources.
+- Open: the 初次到訪 and 全球分堂 page content (church to write the copy); pastoral area order; who updates the event carousel and how often (posters bake in text and expire); whether channel countdowns show only when starting soon; whether 活動與報名 stays as a page (not in the menu list); giving provider; livestream/sermon sources. Resolved: header button is 奉獻; baptism and join-a-group sit under 牧養與群體; no hero countdown.
 
 ## Brand Commitments
 
@@ -58,7 +58,7 @@ The live-stream "channel picker" (choose a service or series like choosing a TV 
 
 - Logo source file and color-code image (above).
 - `ref/homepage-brief.md` and the competitor and reference analyses in `ref/`.
-- The welcome video and poster images are to be supplied by the church and do not exist yet. No real photography, testimonials, service data, or copy supplied; do not fabricate them.
+- The welcome video is to be supplied by the church and does not exist yet. Real photos, sermon thumbnails and event posters are taken from the church's existing site (church611.org) with sources recorded in `site/assets/PROVENANCE.md`. No testimonials, service data, or copy supplied; do not fabricate them.
 
 ## Product Principles
 
